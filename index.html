@@ -148,6 +148,14 @@ section{padding:100px 24px;}
 .ptoggle.annual::after{transform:translateX(22px);}
 .ptoggle.annual{background:rgba(245,158,11,.15);}
 .save-badge{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:var(--ok);font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;letter-spacing:.5px;}
+.founder-banner{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(249,115,22,.08));border:1.5px solid rgba(245,158,11,.3);border-radius:16px;padding:24px 28px;margin-bottom:32px;text-align:center;position:relative;overflow:hidden;}
+.founder-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(245,158,11,.08),transparent 60%);pointer-events:none;}
+.founder-title{font-family:var(--fd);font-size:18px;font-weight:800;color:var(--sun);margin-bottom:6px;position:relative;}
+.founder-sub{font-size:13px;color:var(--txt2);line-height:1.6;position:relative;}
+.founder-counter{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:99px;padding:5px 14px;font-family:var(--fd);font-size:13px;font-weight:700;color:var(--sun);margin-top:12px;position:relative;}
+.founder-dot{width:8px;height:8px;border-radius:50%;background:var(--sun);animation:pulse 2s infinite;}
+.pcard-old-price{font-family:var(--fd);font-size:22px;font-weight:700;color:var(--txt3);text-decoration:line-through;margin-bottom:4px;}
+.pcard-founder-tag{display:inline-block;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--sun);font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px;}
 .pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;}
 .pcard{background:var(--s2);border:1.5px solid var(--bdr2);border-radius:22px;padding:32px 28px;position:relative;transition:transform .25s, border-color .25s;}
 .pcard:hover{transform:translateY(-4px);}
@@ -472,25 +480,26 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--bdr);display:flex;align
       <p class="sec-sub">Válaszd ki, ami a cégedhez illik. Bármikor váltható, bármikor bővíthető.</p>
     </div>
 
-    <div class="pricing-toggle">
-      <span class="ptoggle-lbl active" id="moLbl">Havi</span>
-      <div class="ptoggle" id="pToggle" onclick="toggleAnnual()"></div>
-      <span class="ptoggle-lbl" id="yrLbl">Éves</span>
-      <span class="save-badge">−17% megtakarítás</span>
+    <div class="founder-banner reveal">
+      <div class="founder-title">Alapítói Partner Program — Korlátozott helyek</div>
+      <div class="founder-sub">Az első 10 partner zárt, kedvezményes alapítói áron csatlakozhat — örökre.<br>Közvetlen kapcsolat az alapítóval, beleszólás a fejlesztésbe, garantáltan soha nem emelkedő ár.</div>
+      <div class="founder-counter"><span class="founder-dot"></span> <span id="founderSlots">8</span>/10 hely még elérhető</div>
     </div>
 
     <div class="pricing-grid reveal">
 
       <!-- SOLAR -->
       <div class="pcard">
+        <div class="pcard-founder-tag">Alapítói ár</div>
         <div class="pcard-ico">☀️</div>
         <div class="pcard-name">Solar</div>
         <div class="pcard-tagline">Napelem cégeknek, akik komoly lead generátort akarnak.</div>
+        <div class="pcard-old-price">90 EUR / hó</div>
         <div class="pcard-price">
-          <span class="pcard-eur" id="price1">90</span>
+          <span class="pcard-eur">59</span>
           <span class="pcard-period">EUR / hó</span>
         </div>
-        <div class="pcard-annual" id="annual1">vagy 899 EUR / év (≈ 2 hónap ingyen)</div>
+        <div style="font-size:12px;color:var(--txt3);margin-bottom:20px;">≈ 23 900 Ft / hó · Napi 800 Ft</div>
         <div class="pcard-divider"></div>
         <div class="pcard-features">
           <div class="pf"><div class="pf-check pf-check-default">✓</div>Napelem kalkulátor widget</div>
@@ -503,19 +512,21 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--bdr);display:flex;align
           <div class="pf"><div class="pf-check pf-check-default">✓</div>1 domain beágyazás</div>
           <div class="pf"><div class="pf-check pf-check-default">✓</div>E-mail support</div>
         </div>
-        <button class="pcard-btn" onclick="scrollToContact('Solar csomag')">Érdekel →</button>
+        <button class="pcard-btn" onclick="scrollToContact('Solar csomag — Alapítói ár')">Alapítói helyemet lefoglalom →</button>
       </div>
 
       <!-- KLÍMA -->
       <div class="pcard">
+        <div class="pcard-founder-tag">Alapítói ár</div>
         <div class="pcard-ico">❄️</div>
         <div class="pcard-name">Klíma</div>
         <div class="pcard-tagline">Klíma cégeknek, akik pontos kapacitás számítást akarnak.</div>
+        <div class="pcard-old-price">90 EUR / hó</div>
         <div class="pcard-price">
-          <span class="pcard-eur" id="price2">90</span>
+          <span class="pcard-eur">59</span>
           <span class="pcard-period">EUR / hó</span>
         </div>
-        <div class="pcard-annual" id="annual2">vagy 899 EUR / év (≈ 2 hónap ingyen)</div>
+        <div style="font-size:12px;color:var(--txt3);margin-bottom:20px;">≈ 23 900 Ft / hó · Napi 800 Ft</div>
         <div class="pcard-divider"></div>
         <div class="pcard-features">
           <div class="pf"><div class="pf-check pf-check-default">✓</div>Klíma kalkulátor widget</div>
@@ -528,19 +539,21 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--bdr);display:flex;align
           <div class="pf"><div class="pf-check pf-check-default">✓</div>1 domain beágyazás</div>
           <div class="pf"><div class="pf-check pf-check-default">✓</div>E-mail support</div>
         </div>
-        <button class="pcard-btn" onclick="scrollToContact('Klíma csomag')">Érdekel →</button>
+        <button class="pcard-btn" onclick="scrollToContact('Klíma csomag — Alapítói ár')">Alapítói helyemet lefoglalom →</button>
       </div>
 
       <!-- HŐSZIVATTYÚ -->
       <div class="pcard">
+        <div class="pcard-founder-tag">Alapítói ár</div>
         <div class="pcard-ico">🔥</div>
         <div class="pcard-name">Hőszivattyú</div>
         <div class="pcard-tagline">Hőszivattyú cégeknek, akik prémium leadeket akarnak.</div>
+        <div class="pcard-old-price">120 EUR / hó</div>
         <div class="pcard-price">
-          <span class="pcard-eur" id="price3">120</span>
+          <span class="pcard-eur">59</span>
           <span class="pcard-period">EUR / hó</span>
         </div>
-        <div class="pcard-annual" id="annual3">vagy 1 190 EUR / év (≈ 2 hónap ingyen)</div>
+        <div style="font-size:12px;color:var(--txt3);margin-bottom:20px;">≈ 23 900 Ft / hó · Napi 800 Ft</div>
         <div class="pcard-divider"></div>
         <div class="pcard-features">
           <div class="pf"><div class="pf-check pf-check-default">✓</div>Hőszivattyú kalkulátor widget</div>
@@ -553,20 +566,21 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--bdr);display:flex;align
           <div class="pf"><div class="pf-check pf-check-default">✓</div>1 domain beágyazás</div>
           <div class="pf"><div class="pf-check pf-check-default">✓</div>E-mail support</div>
         </div>
-        <button class="pcard-btn" onclick="scrollToContact('Hőszivattyú csomag')">Érdekel →</button>
+        <button class="pcard-btn" onclick="scrollToContact('Hőszivattyú csomag — Alapítói ár')">Alapítói helyemet lefoglalom →</button>
       </div>
 
       <!-- TELJES ENERGIA — FEATURED -->
       <div class="pcard featured">
-        <div class="pcard-badge">🏆 Legjobb érték</div>
+        <div class="pcard-badge">🏆 Legjobb érték — Alapítói ár</div>
         <div class="pcard-ico">⚡</div>
         <div class="pcard-name">Teljes Energia</div>
         <div class="pcard-tagline">Mind a három kalkulátor — energetikai cégeknek, akik mindent akarnak.</div>
+        <div class="pcard-old-price">199 EUR / hó</div>
         <div class="pcard-price">
-          <span class="pcard-eur" id="price4">199</span>
+          <span class="pcard-eur">59</span>
           <span class="pcard-period">EUR / hó</span>
         </div>
-        <div class="pcard-annual" id="annual4">vagy 1 990 EUR / év (≈ 2,5 hónap ingyen)</div>
+        <div style="font-size:12px;color:var(--txt3);margin-bottom:20px;">≈ 23 900 Ft / hó · Napi 800 Ft · 3 widget az 1 áráért</div>
         <div class="pcard-divider"></div>
         <div class="pcard-features">
           <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div>Napelem kalkulátor widget</div>
@@ -580,12 +594,12 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--bdr);display:flex;align
           <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div>Prioritás support</div>
           <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div><strong>Ingyenes beágyazás segítség</strong></div>
         </div>
-        <button class="pcard-btn" onclick="scrollToContact('Teljes Energia csomag')">Kezdjük el →</button>
+        <button class="pcard-btn" onclick="scrollToContact('Teljes Energia csomag — Alapítói ár')">Alapítói helyemet lefoglalom →</button>
       </div>
 
     </div>
     <p style="text-align:center;font-size:13px;color:var(--txt3);margin-top:28px;">
-      ✅ 14 napos pénzvisszafizetési garancia · Nincs hosszú távú kötöttség · Bármikor lemondható
+      ✅ 14 napos pénzvisszafizetési garancia · Nincs hosszú távú kötöttség · Bármikor lemondható · Alapítói ár örökre zárolva
     </p>
   </div>
 </section>
@@ -634,10 +648,10 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--bdr);display:flex;align
           <label>Melyik csomag érdekel?</label>
           <select id="cpkg">
             <option value="">Még nem döntöttem</option>
-            <option value="solar">☀️ Solar — 90 EUR/hó</option>
-            <option value="hvac">❄️ Klíma — 90 EUR/hó</option>
-            <option value="hp">🔥 Hőszivattyú — 120 EUR/hó</option>
-            <option value="combo">⚡ Teljes Energia — 199 EUR/hó (legjobb érték)</option>
+            <option value="solar">☀️ Solar — 59 EUR/hó (alapítói ár)</option>
+            <option value="hvac">❄️ Klíma — 59 EUR/hó (alapítói ár)</option>
+            <option value="hp">🔥 Hőszivattyú — 59 EUR/hó (alapítói ár)</option>
+            <option value="combo">⚡ Teljes Energia — 59 EUR/hó (3 widget, alapítói ár)</option>
           </select>
         </div>
         <div class="fld"><label>Üzenet (opcionális)</label><textarea id="cm" placeholder="pl. weboldal linkje, speciális igény..."></textarea></div>
@@ -674,23 +688,7 @@ footer{padding:48px 40px 32px;border-top:1px solid var(--bdr);display:flex;align
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* ANNUAL TOGGLE — frissített árakkal */
-let annual=false;
-function toggleAnnual(){
-  annual=!annual;
-  const t=document.getElementById('pToggle');
-  t.classList.toggle('annual',annual);
-  document.getElementById('moLbl').classList.toggle('active',!annual);
-  document.getElementById('yrLbl').classList.toggle('active',annual);
-  document.getElementById('price1').textContent=annual?'75':'90';
-  document.getElementById('price2').textContent=annual?'75':'90';
-  document.getElementById('price3').textContent=annual?'99':'120';
-  document.getElementById('price4').textContent=annual?'165':'199';
-  document.getElementById('annual1').textContent=annual?'899 EUR / év — 181 EUR megtakarítás':'vagy 899 EUR / év (≈ 2 hónap ingyen)';
-  document.getElementById('annual2').textContent=annual?'899 EUR / év — 181 EUR megtakarítás':'vagy 899 EUR / év (≈ 2 hónap ingyen)';
-  document.getElementById('annual3').textContent=annual?'1 190 EUR / év — 250 EUR megtakarítás':'vagy 1 190 EUR / év (≈ 2 hónap ingyen)';
-  document.getElementById('annual4').textContent=annual?'1 990 EUR / év — 398 EUR megtakarítás':'vagy 1 990 EUR / év (≈ 2,5 hónap ingyen)';
-}
+/* Founder pricing — no toggle needed */
 function switchDemo(mode, btn) {
   var srcs = {solar:'widget-solar.html', hvac:'widget-hvac.html', hp:'widget-heatpump.html'};
   var urls = {solar:'leadkalc.hu · widget-solar.html', hvac:'leadkalc.hu · widget-hvac.html', hp:'leadkalc.hu · widget-heatpump.html'};
