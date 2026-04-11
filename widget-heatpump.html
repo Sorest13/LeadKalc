@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hőszivattyú Kalkulátor Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sun:#F59E0B;--sun2:#F97316;--sunG:linear-gradient(135deg,#F59E0B,#F97316);
+  --ok:#10B981;--warn:#EF4444;
+  --bg:#080C18;--surface:#0F1623;--card:#161E2E;--card2:#1C2640;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#F1F5FF;--text2:#CBD5E1;--muted:#64748B;--input:#161E2E;
+  --r:14px;--r2:20px;--r3:26px;--fd:"Bricolage Grotesque",sans-serif;--fb:"Instrument Sans",sans-serif;
+  --shadow:0 32px 96px rgba(0,0,0,0.7),0 0 0 1px rgba(255,255,255,0.04);
+}
+[data-theme="light"]{
+  --bg:#FFF9EE;--surface:#FFFFFF;--card:#FFFDF5;--card2:#FEF3C7;
+  --border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.13);
+  --text:#0B1120;--text2:#374151;--muted:#6B7280;--input:#FFFFFF;
+  --shadow:0 32px 96px rgba(245,158,11,0.08),0 0 0 1px rgba(0,0,0,0.05);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:0;transition:background .4s,color .4s;}
+.w{width:100%;max-width:880px;background:var(--surface);border-radius:var(--r3);box-shadow:var(--shadow);overflow:hidden;transition:background .4s;margin:0 auto;}
+
+/* HERO */
+.hero{padding:36px 40px 28px;position:relative;overflow:hidden;background:var(--card);border-bottom:1px solid var(--border);}
+.hero::before{content:"";position:absolute;inset:0;opacity:.05;background:radial-gradient(ellipse 80% 60% at 90% 50%,#F59E0B 0%,transparent 70%),radial-gradient(ellipse 50% 50% at 10% 80%,#F97316 0%,transparent 60%);pointer-events:none;}
+.hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.hero-brand{display:flex;align-items:center;gap:10px;}
+.hero-brand-icon{width:36px;height:36px;border-radius:10px;background:var(--sunG);display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 14px rgba(245,158,11,.4);}
+.hero-brand-name{font-family:var(--fd);font-size:15px;font-weight:700;letter-spacing:-.3px;color:var(--text);}
+.hero-brand-tag{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);}
+.theme-wrap{display:flex;align-items:center;gap:8px;}
+.theme-lbl{font-size:11px;color:var(--muted);}
+.toggle{width:44px;height:24px;background:var(--card2);border:1.5px solid var(--border2);border-radius:99px;cursor:pointer;position:relative;transition:background .3s;flex-shrink:0;}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:transform .3s,background .3s;}
+[data-theme="light"] .toggle::after{transform:translateX(20px);background:var(--sun);}
+.hero-title{font-family:var(--fd);font-size:26px;font-weight:800;line-height:1.15;letter-spacing:-.5px;margin-bottom:8px;}
+.hero-sub{font-size:14px;color:var(--text2);line-height:1.6;max-width:480px;}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:99px;background:var(--card2);border:1px solid var(--border2);color:var(--text2);}
+
+/* PROGRESS */
+.pbar{height:3px;background:var(--border);position:relative;overflow:hidden;}
+.pfill{height:100%;border-radius:2px;background:var(--sunG);transition:width .6s cubic-bezier(.4,0,.2,1);}
+
+/* STEPS */
+.steps{display:flex;align-items:center;padding:16px 32px;border-bottom:1px solid var(--border);background:var(--card);gap:0;}
+.snode{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;}
+.scirc{width:30px;height:30px;border-radius:50%;border:2px solid var(--border2);background:var(--card2);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:11px;font-weight:700;color:var(--muted);transition:all .3s;z-index:2;position:relative;}
+.scirc.done{background:var(--ok);border-color:var(--ok);color:#fff;}
+.scirc.cur{background:var(--sun);border-color:var(--sun);color:#fff;box-shadow:0 0 16px rgba(245,158,11,.5);}
+.slbl{font-size:10px;color:var(--muted);text-align:center;white-space:nowrap;font-weight:500;}
+.slbl.cur{color:var(--sun);font-weight:700;}
+.sline{flex:1;height:2px;background:var(--border2);margin-bottom:18px;transition:background .4s;}
+.sline.done{background:var(--sun);}
+
+/* CONTENT */
+.content{padding:32px 40px 36px;}
+.panel{display:none;animation:fadeUp .3s ease;}
+.panel.on{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* FORM */
+.sec-hd{font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.sec-hd::after{content:"";flex:1;height:1px;background:var(--border);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.s2{grid-column:1/-1;}
+.fld{display:flex;flex-direction:column;gap:7px;}
+label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;}
+.lbl-hint{font-size:10px;color:var(--muted);font-style:italic;text-transform:none;letter-spacing:0;margin-top:2px;}
+input[type=text],input[type=email],input[type=tel],select,textarea{background:var(--input);border:1.5px solid var(--border2);border-radius:var(--r);padding:11px 14px;font-family:var(--fb);font-size:14px;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;}
+input:focus,select:focus,textarea:focus{border-color:var(--sun);box-shadow:0 0 0 3px rgba(245,158,11,.1);}
+textarea{resize:vertical;min-height:80px;}
+select option{background:var(--surface);}
+
+/* SLIDER */
+.slb{display:flex;flex-direction:column;gap:6px;}
+.slb-top{display:flex;justify-content:space-between;align-items:baseline;}
+.slb-lbl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;}
+.slb-val{font-family:var(--fd);font-size:20px;font-weight:800;line-height:1;color:var(--sun);min-width:80px;text-align:right;}
+input[type=range]{-webkit-appearance:none;width:100%;height:5px;background:var(--card2);border-radius:3px;outline:none;border:none;padding:0;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--sun);cursor:pointer;border:3px solid var(--surface);box-shadow:0 0 10px rgba(245,158,11,.5);transition:transform .15s;}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.25);}
+
+/* PILLS & CARDS */
+.pills{display:flex;flex-wrap:wrap;gap:8px;}
+.pill{padding:8px 14px;border-radius:99px;border:1.5px solid var(--border2);background:var(--card);color:var(--muted);font-family:var(--fb);font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.pill:hover{border-color:var(--sun);color:var(--text);}
+.pill.sel{border-color:var(--sun);background:rgba(245,158,11,.12);color:var(--sun);font-weight:600;}
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.crd{padding:14px 10px;border-radius:var(--r);border:1.5px solid var(--border2);background:var(--card);text-align:center;cursor:pointer;transition:all .2s;color:var(--muted);}
+.crd:hover{border-color:var(--sun);color:var(--text);}
+.crd.sel{border-color:var(--sun);background:rgba(245,158,11,.1);color:var(--sun);}
+.crd-ico{font-size:24px;line-height:1;margin-bottom:5px;}
+.crd-lbl{font-size:11px;font-weight:600;line-height:1.3;}
+.crd-sub{font-size:10px;color:var(--muted);margin-top:3px;}
+
+/* DIVIDER / TIP / ALERT */
+.div{height:1px;background:var(--border);margin:24px 0;}
+.tip-box{display:flex;gap:10px;background:var(--card2);border:1px solid var(--border2);border-radius:var(--r);padding:12px 14px;margin-top:4px;}
+.tip-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.tip-txt{font-size:12px;color:var(--text2);line-height:1.6;}
+.tip-txt strong{color:var(--text);}
+.alert{border-radius:var(--r);padding:14px 16px;margin-bottom:16px;display:flex;gap:12px;align-items:flex-start;}
+.alert-sun{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);}
+.alert-ok{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);}
+.alert-warn{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}
+.alert-ico{font-size:18px;flex-shrink:0;}
+.alert-body{font-size:12px;color:var(--text2);line-height:1.6;}
+.alert-body strong{color:var(--text);}
+
+/* PREVIEW */
+.prev-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px;}
+.pc{background:var(--card2);border:1px solid var(--border2);border-radius:var(--r);padding:14px 16px;}
+.pc-lbl{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;}
+.pc-val{font-family:var(--fd);font-size:18px;font-weight:800;color:var(--sun);line-height:1.2;}
+
+/* RESULT CARDS */
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
+.rc{background:var(--card);border:1px solid var(--border2);border-radius:var(--r2);padding:20px 18px 16px;position:relative;overflow:hidden;display:flex;flex-direction:column;}
+.rc::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--sunG);}
+.rc-ico{font-size:22px;line-height:1;height:26px;margin-bottom:10px;}
+.rc-lbl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.9px;line-height:1.4;height:28px;display:flex;align-items:flex-end;margin-bottom:10px;}
+.rc-val{font-family:var(--fd);font-size:24px;font-weight:800;line-height:1.15;height:30px;display:flex;align-items:center;color:var(--sun);}
+.rc-sub{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4;}
+.rc.wide{grid-column:1/-1;}
+.rc-wide-inner{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.rc-wide-item .rc-val{font-size:20px;height:26px;}
+
+/* CHART */
+.chart-wrap{background:var(--card);border:1px solid var(--border2);border-radius:var(--r2);padding:22px 22px 16px;margin-bottom:14px;}
+.chart-title{font-family:var(--fd);font-size:13px;font-weight:700;color:var(--text);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.chart-area{position:relative;height:130px;width:100%;}
+.chart-svg{width:100%;height:100%;overflow:visible;}
+.chart-foot{display:flex;justify-content:space-between;margin-top:10px;align-items:center;}
+.chart-note{font-family:var(--fd);font-size:12px;font-weight:700;color:var(--sun);}
+.chart-ends{font-size:10px;color:var(--muted);}
+
+/* LEAD BOX */
+.lead-box{border-radius:var(--r2);padding:28px;margin-top:6px;background:linear-gradient(135deg,rgba(245,158,11,.07),rgba(249,115,22,.04));border:1px solid rgba(245,158,11,.22);}
+.lead-head{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+.lead-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;background:rgba(245,158,11,.15);}
+.lead-h3{font-family:var(--fd);font-size:17px;font-weight:800;line-height:1.2;}
+.lead-p{font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6;}
+.gdpr{font-size:11px;color:var(--muted);margin-top:10px;text-align:center;line-height:1.5;}
+
+/* BOOKING */
+.booking{display:none;margin-top:22px;background:var(--card);border:1px solid var(--border2);border-radius:var(--r2);padding:24px;animation:fadeUp .35s ease;}
+.booking.show{display:block;}
+.bk-title{font-family:var(--fd);font-size:15px;font-weight:800;color:var(--text);margin-bottom:18px;}
+.cal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.cal-mo{font-family:var(--fd);font-size:14px;font-weight:700;color:var(--text);}
+.cal-btn{background:none;border:1.5px solid var(--border2);border-radius:8px;width:30px;height:30px;cursor:pointer;color:var(--text);font-size:14px;display:flex;align-items:center;justify-content:center;transition:border-color .2s;}
+.cal-btn:hover{border-color:var(--sun);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:18px;}
+.cdn{font-size:10px;font-weight:700;color:var(--muted);text-align:center;padding:4px 0;text-transform:uppercase;}
+.cd{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;color:var(--muted);border:1.5px solid transparent;transition:all .15s;background:transparent;}
+.cd:not(.empty):not(.past):hover{background:var(--card2);color:var(--text);border-color:var(--border2);}
+.cd.sel{background:rgba(245,158,11,.15);border-color:var(--sun);color:var(--sun);font-weight:700;}
+.cd.past{opacity:.25;cursor:default;pointer-events:none;}
+.cd.empty{cursor:default;}
+.cd.today{color:var(--text);font-weight:700;}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:6px;}
+.slot{padding:9px 4px;border-radius:9px;border:1.5px solid var(--border2);background:var(--card);font-size:12px;font-weight:500;color:var(--muted);text-align:center;cursor:pointer;transition:all .15s;}
+.slot:hover{border-color:var(--sun);color:var(--text);}
+.slot.sel{background:rgba(245,158,11,.12);border-color:var(--sun);color:var(--sun);font-weight:700;}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:10px;margin-top:24px;}
+.btn-back{flex:1;padding:13px;border:1.5px solid var(--border2);border-radius:var(--r);background:transparent;color:var(--muted);font-family:var(--fd);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-back:hover{border-color:var(--text2);color:var(--text);}
+.btn-next{flex:2.5;padding:13px;border:none;border-radius:var(--r);font-family:var(--fd);font-size:13px;font-weight:800;cursor:pointer;transition:all .25s;color:#fff;letter-spacing:.3px;background:var(--sunG);box-shadow:0 4px 20px rgba(245,158,11,.35);}
+.btn-next:hover{box-shadow:0 6px 28px rgba(245,158,11,.5);transform:translateY(-1px);}
+.btn-submit{width:100%;padding:15px;border:none;border-radius:var(--r);font-family:var(--fd);font-size:14px;font-weight:800;cursor:pointer;transition:all .25s;color:#fff;margin-top:18px;background:var(--sunG);box-shadow:0 4px 20px rgba(245,158,11,.35);}
+.btn-submit:hover{box-shadow:0 6px 28px rgba(245,158,11,.5);transform:translateY(-1px);}
+.btn-confirm{width:100%;padding:14px;border:none;border-radius:var(--r);background:linear-gradient(135deg,var(--ok),#059669);color:#fff;font-family:var(--fd);font-size:13px;font-weight:800;cursor:pointer;transition:all .25s;margin-top:14px;display:none;box-shadow:0 4px 16px rgba(16,185,129,.3);}
+.btn-confirm:hover{box-shadow:0 6px 24px rgba(16,185,129,.45);transform:translateY(-1px);}
+
+/* SUCCESS */
+.success{text-align:center;padding:24px 0 12px;}
+.suc-ico{width:72px;height:72px;background:linear-gradient(135deg,var(--ok),#059669);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 22px;box-shadow:0 0 40px rgba(16,185,129,.35);}
+.suc-h{font-family:var(--fd);font-size:24px;font-weight:800;margin-bottom:10px;}
+.suc-p{font-size:14px;color:var(--text2);line-height:1.7;}
+
+@media(max-width:620px){
+  .hero,.content{padding-left:20px;padding-right:20px;}
+  .steps{padding:14px 20px;}
+  .g2,.rg{grid-template-columns:1fr;}
+  .prev-row{grid-template-columns:1fr 1fr;}
+  .cards3{grid-template-columns:1fr 1fr;}
+  .slots{grid-template-columns:repeat(3,1fr);}
+  .hero-title{font-size:20px;}
+  .hero-badges{display:none;}
+  .rc-wide-inner{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="w" id="W">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-top">
+    <div class="hero-brand">
+      <div class="hero-brand-icon">🔥</div>
+      <div>
+        <div class="hero-brand-name">Hőszivattyú Kalkulátor Pro</div>
+        <div class="hero-brand-tag">Ingyenes · 3 perc · Kötelezettségmentes</div>
+      </div>
+    </div>
+    <div class="theme-wrap">
+      <span class="theme-lbl" id="tLbl">Sötét</span>
+      <div class="toggle" id="tToggle" onclick="toggleTheme()"></div>
+    </div>
+  </div>
+  <div class="hero-title">Számítsa ki hőszivattyú rendszerének megtérülését</div>
+  <div class="hero-sub">Adja meg ingatlan adatait és percek alatt pontos teljesítmény- és megtérülés-kalkulációt kap — díjmentesen, szakértői ajánlattal.</div>
+  <div class="hero-badges">
+    <span class="badge">🔥 Levegő-víz hőszivattyú</span>
+    <span class="badge">📈 Megtérülés vs. gázfűtés</span>
+    <span class="badge">🏆 Otthon Melege pályázat</span>
+    <span class="badge">🌍 CO₂ megtakarítás</span>
+    <span class="badge">💰 Éves költségbecslés</span>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="pbar"><div class="pfill" id="pf" style="width:20%"></div></div>
+
+<!-- STEPS -->
+<div class="steps" id="stepsBar">
+  <div class="snode"><div class="scirc cur" id="sc1">1</div><div class="slbl cur" id="sl1">Ingatlan</div></div>
+  <div class="sline" id="sln1"></div>
+  <div class="snode"><div class="scirc" id="sc2">2</div><div class="slbl" id="sl2">Rendszer</div></div>
+  <div class="sline" id="sln2"></div>
+  <div class="snode"><div class="scirc" id="sc3">3</div><div class="slbl" id="sl3">Fűtés</div></div>
+  <div class="sline" id="sln3"></div>
+  <div class="snode"><div class="scirc" id="sc4">4</div><div class="slbl" id="sl4">Eredmény</div></div>
+  <div class="sline" id="sln4"></div>
+  <div class="snode"><div class="scirc" id="sc5">5</div><div class="slbl" id="sl5">Ajánlat</div></div>
+</div>
+
+<div class="content">
+
+<!-- ═══ STEP 1: Ingatlan ═══ -->
+<div class="panel on" id="p1">
+  <div class="sec-hd">Ingatlan adatok</div>
+  <div class="g2">
+    <div class="slb s2">
+      <div class="slb-top"><span class="slb-lbl">Fűtendő alapterület</span><span class="slb-val" id="sv_area">120 m²</span></div>
+      <input type="range" min="30" max="500" value="120" step="5" id="sl_area" oninput="sv('sv_area',this.value,' m²');calc1();">
+      <span class="lbl-hint">Az összes fűteni kívánt helyiség alapterülete összesen</span>
+    </div>
+    <div class="fld">
+      <label>Épület típusa</label>
+      <select id="buildType" onchange="calc1()">
+        <option value="family">Családi ház</option>
+        <option value="semi">Ikerház / sorház</option>
+        <option value="old">Régi téglaépület (1990 előtt)</option>
+        <option value="new">Új építés (2000 után)</option>
+        <option value="passive">Korszerűsített / passzívház</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>Szigetelés állapota</label>
+      <select id="insulation" onchange="calc1()">
+        <option value="none">Nincs szigetelés</option>
+        <option value="poor">Gyenge (régi, elavult)</option>
+        <option value="avg" selected>Átlagos (10–15 cm EPS)</option>
+        <option value="good">Jó (15–20 cm EPS)</option>
+        <option value="excellent">Kiváló (20+ cm, passzívház)</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>Ablak típusa</label>
+      <select id="windowType" onchange="calc1()">
+        <option value="single">Egyrétegű (régi)</option>
+        <option value="double" selected>Kétrétegű (hőszigetelt)</option>
+        <option value="triple">Háromrétegű (prémium)</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>Épület kora</label>
+      <select id="buildAge" onchange="calc1()">
+        <option value="pre1980">1980 előtt épült</option>
+        <option value="1980_2000" selected>1980–2000 között</option>
+        <option value="2000_2010">2000–2010 között</option>
+        <option value="post2010">2010 után épült</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>Belmagasság</label>
+      <select id="height" onchange="calc1()">
+        <option value="2.5">2.5 m – átlagos</option>
+        <option value="2.8" selected>2.8 m – új építés</option>
+        <option value="3.2">3.2 m – magas</option>
+      </select>
+    </div>
+    <div class="fld s2">
+      <label>Fűtési rendszer típusa (meglévő / tervezett)</label>
+      <div class="cards3" id="heatingCards">
+        <div class="crd sel" onclick="pickHeating(this,'radiator')"><div class="crd-ico">🔧</div><div class="crd-lbl">Radiátoros fűtés</div><div class="crd-sub">55–70°C előremenő</div></div>
+        <div class="crd" onclick="pickHeating(this,'lowtemp')"><div class="crd-ico">🌡️</div><div class="crd-lbl">Alacsony hőmérsékletű</div><div class="crd-sub">45–55°C előremenő</div></div>
+        <div class="crd" onclick="pickHeating(this,'floor')"><div class="crd-ico">🏠</div><div class="crd-lbl">Padlófűtés</div><div class="crd-sub">30–40°C előremenő</div></div>
+      </div>
+      <span class="lbl-hint">A padlófűtés a legjobb kombináció hőszivattyúval — a legmagasabb COP értéket adja</span>
+    </div>
+  </div>
+  <div class="div"></div>
+  <div class="sec-hd">Előzetes teljesítmény becslés</div>
+  <div class="prev-row">
+    <div class="pc"><div class="pc-lbl">Hőterhelés</div><div class="pc-val" id="pv_load">9.6 kW</div></div>
+    <div class="pc"><div class="pc-lbl">Ajánlott méret</div><div class="pc-val" id="pv_model">10 kW</div></div>
+    <div class="pc"><div class="pc-lbl">Becsült COP</div><div class="pc-val" id="pv_cop">3.2</div></div>
+  </div>
+  <div class="btn-row"><button class="btn-next" onclick="goTo(2)">Következő: Rendszer részletei →</button></div>
+</div>
+
+<!-- ═══ STEP 2: Rendszer ═══ -->
+<div class="panel" id="p2">
+  <div class="sec-hd">Hőszivattyú rendszer részletei</div>
+
+  <div class="alert alert-sun">
+    <div class="alert-ico">🏆</div>
+    <div class="alert-body"><strong>Otthon Melege Program:</strong> Hőszivattyú telepítésre akár 50% visszatérítés (max. 2,5M Ft) elérhető az állami pályázaton — a következő kérdések segítenek meghatározni jogosultságát.</div>
+  </div>
+
+  <div class="g2">
+    <div class="fld">
+      <label>Ügyfél típusa</label>
+      <select id="clientType">
+        <option value="private">Magánszemély / háztartás</option>
+        <option value="company">Vállalkozás / cég</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>Ingatlan tulajdonos?</label>
+      <select id="owner">
+        <option value="yes">Igen, teljes tulajdonos</option>
+        <option value="part">Résztulajdonos</option>
+        <option value="rent">Bérlő</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>Meglévő fűtési rendszer</label>
+      <select id="currentHeating" onchange="calcAll()">
+        <option value="gas" selected>Gázkazán</option>
+        <option value="oil">Olajkazán</option>
+        <option value="solid">Szilárd tüzelő (fa/szén)</option>
+        <option value="electric">Elektromos fűtés</option>
+        <option value="district">Távhő</option>
+        <option value="none">Nincs (új építés)</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>Jelenlegi éves fűtési költség</label>
+      <select id="currentCost" onchange="calcAll()">
+        <option value="200000">~200 000 Ft / év</option>
+        <option value="300000" selected>~300 000 Ft / év</option>
+        <option value="400000">~400 000 Ft / év</option>
+        <option value="500000">~500 000 Ft / év</option>
+        <option value="700000">~700 000 Ft / év</option>
+        <option value="1000000">~1 000 000+ Ft / év</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>Melegvíz igény (HMV)</label>
+      <select id="dhw">
+        <option value="no">Nem szükséges (külön bojler van)</option>
+        <option value="yes" selected>Igen — hőszivattyúval kombinálja</option>
+      </select>
+      <span class="lbl-hint">A kombinált HMV megnöveli a rendszer méretét ~10%-kal</span>
+    </div>
+    <div class="fld">
+      <label>Puffertartály szükséges?</label>
+      <select id="buffer">
+        <option value="yes" selected>Igen (ajánlott radiátorosnál)</option>
+        <option value="no">Nem (padlófűtésnél általában nem kell)</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>Meglévő radiátor csere?</label>
+      <select id="radReplace">
+        <option value="no" selected>Nem szükséges</option>
+        <option value="partial">Részlegesen szükséges</option>
+        <option value="full">Teljes csere szükséges</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>Smart / okos vezérlés</label>
+      <select id="smart">
+        <option value="no">Nem szükséges</option>
+        <option value="yes">Igen — okos termosztát + app</option>
+      </select>
+    </div>
+    <div class="fld s2">
+      <label>Márka preferencia (opcionális)</label>
+      <div class="pills" id="brandPills">
+        <div class="pill" onclick="togglePill(this)">Daikin</div>
+        <div class="pill" onclick="togglePill(this)">Mitsubishi</div>
+        <div class="pill" onclick="togglePill(this)">Bosch</div>
+        <div class="pill" onclick="togglePill(this)">Vaillant</div>
+        <div class="pill" onclick="togglePill(this)">Viessmann</div>
+        <div class="pill" onclick="togglePill(this)">Stiebel Eltron</div>
+        <div class="pill" onclick="togglePill(this)">Mindegy</div>
+      </div>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn-back" onclick="goTo(1)">← Vissza</button>
+    <button class="btn-next" onclick="goTo(3)">Következő: Fűtési adatok →</button>
+  </div>
+</div>
+
+<!-- ═══ STEP 3: Fűtési adatok ═══ -->
+<div class="panel" id="p3">
+  <div class="sec-hd">Energiaárak és használati szokások</div>
+  <div class="g2">
+    <div class="slb s2">
+      <div class="slb-top"><span class="slb-lbl">Villamosenergia ár</span><span class="slb-val" id="sv_elec">36 Ft/kWh</span></div>
+      <input type="range" min="20" max="150" value="36" step="2" id="sl_elec" oninput="sv('sv_elec',this.value,' Ft/kWh');calcAll();">
+      <span class="lbl-hint">Rezsicsökkentett: ~36 Ft/kWh · Piaci ár: ~70–120 Ft/kWh</span>
+    </div>
+    <div class="fld">
+      <label>Fűtési szezon hossza</label>
+      <select id="season" onchange="calcAll()">
+        <option value="5">5 hónap (enyhe klíma)</option>
+        <option value="6" selected>6 hónap (átlagos)</option>
+        <option value="7">7 hónap (hideg vidék)</option>
+        <option value="8">8 hónap (észak-magyarország)</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>Napi fűtési órák</label>
+      <select id="dailyHrs" onchange="calcAll()">
+        <option value="10">10 óra / nap</option>
+        <option value="14">14 óra / nap</option>
+        <option value="18" selected>18 óra / nap (komfortos)</option>
+        <option value="24">24 óra / nap (folyamatos)</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>H tarifa (éjszakai olcsóbb áram)?</label>
+      <select id="htariff" onchange="calcAll()">
+        <option value="no" selected>Nem</option>
+        <option value="yes">Igen — H tarifán működne</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>Tervezett hőmérséklet (nappali)</label>
+      <select id="temp" onchange="calcAll()">
+        <option value="20">20°C — takarékos</option>
+        <option value="21" selected>21°C — komfortos</option>
+        <option value="22">22°C — meleg</option>
+        <option value="23">23°C — nagyon meleg</option>
+      </select>
+    </div>
+    <div class="fld s2">
+      <label>Irányítószám / Helyszín</label>
+      <input type="text" id="zip" placeholder="pl. 1234 – Budapest, XII. kerület">
+      <span class="lbl-hint">A helyszín befolyásolja a COP értéket (téli hőmérséklet alapján)</span>
+    </div>
+  </div>
+  <div class="tip-box">
+    <span class="tip-icon">💡</span>
+    <div class="tip-txt"><strong>Fontos:</strong> A hőszivattyú leghatékonyabb alacsony hőmérsékletű fűtési rendszerrel (padlófűtés, nagyméretű radiátor). Padlófűtésnél a COP akár 4.5 is lehet — ez 40%-kal alacsonyabb villanyszámlát jelent.</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn-back" onclick="goTo(2)">← Vissza</button>
+    <button class="btn-next" onclick="goTo(4)">Eredmények megtekintése →</button>
+  </div>
+</div>
+
+<!-- ═══ STEP 4: Eredmény ═══ -->
+<div class="panel" id="p4">
+  <div class="sec-hd">Hőszivattyú rendszer kalkuláció</div>
+
+  <div class="rg">
+    <div class="rc"><div class="rc-ico">🔥</div><div class="rc-lbl">Szükséges teljesítmény</div><div class="rc-val" id="r_kw">—</div><div class="rc-sub">kW hőteljesítmény</div></div>
+    <div class="rc"><div class="rc-ico">⚡</div><div class="rc-lbl">Felvett elektromos telj.</div><div class="rc-val" id="r_eleckw">—</div><div class="rc-sub">kW elektromos input</div></div>
+    <div class="rc"><div class="rc-ico">📊</div><div class="rc-lbl">COP hatásfok (becsült)</div><div class="rc-val" id="r_cop">—</div><div class="rc-sub">1 kWh → ennyi hő</div></div>
+    <div class="rc"><div class="rc-ico">💰</div><div class="rc-lbl">Berendezés + telepítés</div><div class="rc-val" id="r_cost">—</div><div class="rc-sub">Ft bruttó</div></div>
+    <div class="rc"><div class="rc-ico">📅</div><div class="rc-lbl">Éves üzemeltetési költség</div><div class="rc-val" id="r_annual">—</div><div class="rc-sub">Ft / év (villany)</div></div>
+    <div class="rc"><div class="rc-ico">💹</div><div class="rc-lbl">Megtakarítás vs. gázfűtés</div><div class="rc-val" id="r_saving">—</div><div class="rc-sub">Ft / év</div></div>
+    <div class="rc"><div class="rc-ico">⏱️</div><div class="rc-lbl">Megtérülési idő</div><div class="rc-val" id="r_payback">—</div><div class="rc-sub">év (pályázat nélkül)</div></div>
+    <div class="rc"><div class="rc-ico">🏆</div><div class="rc-lbl">Megtérülés pályázattal</div><div class="rc-val" id="r_payback2">—</div><div class="rc-sub">év (50% támogatással)</div></div>
+    <div class="rc wide">
+      <div class="rc-ico">🌍</div>
+      <div class="rc-lbl">15 éves CO₂ megtakarítás (gázhoz képest)</div>
+      <div class="rc-wide-inner">
+        <div class="rc-wide-item"><div class="rc-val" id="r_co2">—</div><div class="rc-sub">tonna CO₂</div></div>
+        <div class="rc-wide-item"><div class="rc-val" id="r_tree">—</div><div class="rc-sub">fa egyenérték</div></div>
+        <div class="rc-wide-item"><div class="rc-val" id="r_annualsave">—</div><div class="rc-sub">Ft megtakarítás 15 év alatt</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pályázat info -->
+  <div class="alert alert-ok" id="palInfo" style="display:none">
+    <div class="alert-ico">🏆</div>
+    <div class="alert-body" id="palTxt"></div>
+  </div>
+
+  <!-- Figyelmeztetés ha radiátoros -->
+  <div class="alert alert-warn" id="radWarn" style="display:none">
+    <div class="alert-ico">⚠️</div>
+    <div class="alert-body"><strong>Radiátoros fűtésnél fontos:</strong> A meglévő radiátorok méretezése döntő a hatékonysághoz. Sok esetben a radiátorok cseréje vagy padlófűtésre váltás szükséges a maximális COP eléréséhez. Szakértőnk felmérés során pontosan meghatározza.</div>
+  </div>
+
+  <!-- CHART -->
+  <div class="chart-wrap">
+    <div class="chart-title">📈 15 éves megtérülési idővonal — gázfűtés vs. hőszivattyú</div>
+    <div class="chart-area"><svg class="chart-svg" id="hpSvg" viewBox="0 0 800 130" preserveAspectRatio="none"></svg></div>
+    <div class="chart-foot">
+      <span class="chart-ends">0 év</span>
+      <span class="chart-note" id="r_chartlbl">Megtérülés: — év</span>
+      <span class="chart-ends">15 év</span>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-back" onclick="goTo(3)">← Vissza</button>
+    <button class="btn-next" onclick="goTo(5)">Ingyenes ajánlat kérése →</button>
+  </div>
+</div>
+
+<!-- ═══ STEP 5: Lead ═══ -->
+<div class="panel" id="p5">
+  <div class="sec-hd">Összefoglalás</div>
+  <div class="rg" style="margin-bottom:22px">
+    <div class="rc"><div class="rc-lbl">Rendszer mérete</div><div class="rc-val" id="sum_kw">—</div><div class="rc-sub">kW</div></div>
+    <div class="rc"><div class="rc-lbl">Megtérülés</div><div class="rc-val" id="sum_pay">—</div><div class="rc-sub">év</div></div>
+  </div>
+
+  <div style="font-size:11px;color:#64748B;text-align:center;padding:12px 16px;border-top:1px solid rgba(255,255,255,0.06);margin-top:8px;line-height:1.6;">ℹ️ A kalkuláció iparági standard képleteken alapul (W/m² módszer, COP értékek). Az eredmények tájékoztató jellegű közelítő értékek — a pontos ajánlathoz helyszíni felmérés szükséges.</div>
+<div class="lead-box">
+    <div class="lead-head">
+      <div class="lead-ico">🎯</div>
+      <div><div class="lead-h3">Kérjen ingyenes hőszivattyú ajánlatot</div></div>
+    </div>
+    <div class="lead-p">Szakértőnk 24 órán belül felveszi Önnel a kapcsolatot, helyszíni felmérést szervez és részletes, márkafüggetlen ajánlatot — pályázati segítséggel együtt — küld el.</div>
+    <div class="g2">
+      <div class="fld"><label>Teljes név *</label><input type="text" id="ln" placeholder="Kovács János"></div>
+      <div class="fld"><label>Telefonszám *</label><input type="tel" id="lp" placeholder="+36 30 123 4567"></div>
+      <div class="fld s2"><label>E-mail cím *</label><input type="email" id="le" placeholder="kovacs.janos@email.hu"></div>
+      <div class="fld"><label>Irányítószám / Helyszín</label><input type="text" id="lz" placeholder="1234 – Budapest"></div>
+      <div class="fld s2"><label>Megjegyzés</label><textarea id="lnote" placeholder="pl. gázkazán cseréje, padlófűtés megléte, pályázati érdeklődés..."></textarea></div>
+      <div class="fld s2">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:12px;color:var(--text2)">
+          <input type="checkbox" id="gdpr" style="width:16px;height:16px;accent-color:var(--sun);">
+          Elfogadom az adatkezelési tájékoztatót és hozzájárulok adataim kezeléséhez *
+        </label>
+      </div>
+    </div>
+    <button class="btn-submit" onclick="submitLead()">🔥 Ingyenes ajánlat + időpont foglalás →</button>
+    <div class="gdpr">🔒 Adatait GDPR szerint kezeljük és 3. félnek nem adjuk át. Spam? Soha.</div>
+  </div>
+
+  <!-- BOOKING -->
+  <div class="booking" id="bk">
+    <div class="bk-title">📅 Válasszon konzultációs időpontot</div>
+    <div class="cal-hd">
+      <button class="cal-btn" onclick="calNav(-1)">‹</button>
+      <span class="cal-mo" id="calMo">—</span>
+      <button class="cal-btn" onclick="calNav(1)">›</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="sec-hd" style="margin-bottom:12px">Elérhető időpontok</div>
+    <div class="slots" id="calSlots"></div>
+    <button class="btn-confirm" id="btnConfirm" onclick="confirmBk()">✅ Időpont megerősítése</button>
+  </div>
+
+  <div class="btn-row"><button class="btn-back" onclick="goTo(4)">← Vissza</button></div>
+</div>
+
+<!-- SUCCESS -->
+<div class="panel" id="successPanel">
+  <div class="success">
+    <div class="suc-ico">✓</div>
+    <div class="suc-h">Köszönjük érdeklődését!</div>
+    <div class="suc-p">Adatait és az időpontfoglalást megkaptuk.<br>Szakértőnk <strong>24 órán belül</strong> visszaigazol és személyesen felveszi Önnel a kapcsolatot.</div>
+  </div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /widget -->
+
+<script>
+/* ══════════════ STATE ══════════════ */
+let hR={}, heatingType='radiator', calY, calM, selDate=null, selTime=null;
+const $=id=>document.getElementById(id);
+const setTxt=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
+function sv(id,val,unit){setTxt(id,val+unit);}
+function fmtFt(n){return Math.round(n).toLocaleString('hu');}
+function fmtK(n){return Math.round(n/1000).toLocaleString('hu')+' 000';}
+function gVal(id){const e=$(id);return e?e.value:'';}
+
+/* ══════════════ THEME ══════════════ */
+function toggleTheme(){
+  const html=document.documentElement;
+  const dark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',dark?'light':'dark');
+  $('tLbl').textContent=dark?'Világos':'Sötét';
+}
+
+/* ══════════════ NAV ══════════════ */
+function goTo(s){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  const pid = s<=5 ? 'p'+s : 'successPanel';
+  $(pid).classList.add('on');
+  $('pf').style.width=(s/5*100)+'%';
+  updateSteps(s);
+  if(s===4){calcAll();drawChart();showPal();showRadWarn();}
+  $('W').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function updateSteps(s){
+  const labels=['Ingatlan','Rendszer','Fűtés','Eredmény','Ajánlat'];
+  for(let i=1;i<=5;i++){
+    const c=$('sc'+i),l=$('sl'+i);
+    c.className='scirc'; l.className='slbl';
+    l.textContent=labels[i-1];
+    if(i<s){c.classList.add('done');c.textContent='✓';}
+    else if(i===s){c.classList.add('cur');c.textContent=i;l.classList.add('cur');}
+    else{c.textContent=i;}
+    if(i<5){const ln=$('sln'+i);ln.className='sline'+(i<s?' done':'');}
+  }
+}
+
+/* ══════════════ PILLS & CARDS ══════════════ */
+function togglePill(el){el.classList.toggle('sel');}
+function pickHeating(el,type){
+  heatingType=type;
+  document.querySelectorAll('#heatingCards .crd').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  calc1();
+}
+
+/* ══════════════ STEP 1 CALC ══════════════ */
+function calc1(){
+  const area=+($('sl_area')?$('sl_area').value:120);
+  const ins=gVal('insulation')||'avg';
+  const win=gVal('windowType')||'double';
+  const age=gVal('buildAge')||'1980_2000';
+  const h=+gVal('height')||2.8;
+
+  // W/m² fajlagos hőveszteség
+  const insF={none:120,poor:95,avg:70,good:50,excellent:35};
+  const winF={single:15,double:0,triple:-10};
+  const ageF={pre1980:20,'1980_2000':5,'2000_2010':-5,post2010:-15};
+  const wpm2=(insF[ins]||70)+(winF[win]||0)+(ageF[age]||0);
+
+  const load=+(area*wpm2/1000).toFixed(1);
+
+  // COP by heating type
+  const copBase={radiator:2.8,lowtemp:3.4,floor:4.2};
+  const cop=copBase[heatingType]||3.2;
+
+  // Model sizing
+  const dhwExtra=gVal('dhw')==='yes'?0.1:0;
+  const loadTotal=+(load*(1+dhwExtra)).toFixed(1);
+  const models=[5,6,8,10,12,14,16,20,24];
+  const model=models.find(m=>m>=loadTotal)||24;
+
+  hR._load=load;hR._model=model;hR._cop=cop;hR._area=area;
+
+  setTxt('pv_load',load+' kW');
+  setTxt('pv_model',model+' kW');
+  setTxt('pv_cop',cop.toFixed(1));
+}
+
+/* ══════════════ FULL CALC ══════════════ */
+function calcAll(){
+  calc1();
+  const load=hR._load||9;
+  const model=hR._model||10;
+  const cop=hR._cop||3.2;
+  const elecPrice=+($('sl_elec')?$('sl_elec').value:36);
+  const season=+gVal('season')||6;
+  const dailyHrs=+gVal('dailyHrs')||18;
+  const htariff=gVal('htariff')==='yes';
+  const dhw=gVal('dhw')==='yes';
+  const buffer=gVal('buffer')==='yes';
+  const radReplace=gVal('radReplace')||'no';
+  const smart=gVal('smart')==='yes';
+  const currentHeating=gVal('currentHeating')||'gas';
+  const currentCost=+gVal('currentCost')||300000;
+
+  // Effective electricity price
+  const effElec=htariff?elecPrice*0.75:elecPrice;
+
+  // Annual energy consumption
+  const annHrs=season*30*dailyHrs;
+  const annHeatKwh=Math.round(load*annHrs*0.65); // 0.65 = load factor
+  const annElecKwh=Math.round(annHeatKwh/cop);
+  const annCost=Math.round(annElecKwh*effElec);
+
+  // Installation cost
+  const baseCost=model<=6?900000:model<=8?1200000:model<=10?1500000:model<=12?1900000:model<=16?2400000:3200000;
+  const dhwExtra=dhw?180000:0;
+  const bufferExtra=buffer?120000:0;
+  const radExtra=radReplace==='partial'?300000:radReplace==='full'?800000:0;
+  const smartExtra=smart?150000:0;
+  const totalCost=baseCost+dhwExtra+bufferExtra+radExtra+smartExtra;
+
+  // Savings vs current
+  const saving=Math.max(0,currentCost-annCost);
+  const payback=saving>0?+(totalCost/saving).toFixed(1):99;
+
+  // With subsidy (50% Otthon Melege)
+  const subsidizedCost=totalCost*0.5;
+  const payback2=saving>0?+(subsidizedCost/saving).toFixed(1):99;
+
+  // CO2 (gas: 0.202 kg/kWh, electric: 0.226 kg/kWh)
+  const annHeatKwhGas=currentCost/40; // ~40 Ft/kWh gas equivalent
+  const co2Gas=annHeatKwhGas*0.202*15/1000;
+  const co2Elec=annElecKwh*0.226*15/1000;
+  const co2Save=+(co2Gas-co2Elec).toFixed(1);
+  const trees=Math.round(Math.max(0,co2Save)*1000/22);
+  const totalSaving=Math.round(saving*15);
+
+  // Electric input kW
+  const elecKw=+(model/cop).toFixed(1);
+
+  hR={...hR,model,cop,totalCost,annCost,annElecKwh,saving,payback,payback2,co2Save,trees,totalSaving,currentCost,elecKw};
+
+  setTxt('r_kw',model+' kW');
+  setTxt('r_eleckw',elecKw+' kW');
+  setTxt('r_cop',cop.toFixed(1));
+  setTxt('r_cost',fmtK(totalCost)+' Ft');
+  setTxt('r_annual',fmtFt(annCost)+' Ft');
+  setTxt('r_saving',saving>0?fmtFt(saving)+' Ft':'—');
+  setTxt('r_payback',payback<50?payback+' év':'15+ év');
+  setTxt('r_payback2',payback2<50?payback2+' év':'—');
+  setTxt('r_co2',Math.max(0,co2Save)+' t');
+  setTxt('r_tree',trees+' fa');
+  setTxt('r_annualsave',fmtK(totalSaving)+' Ft');
+  setTxt('r_chartlbl','Megtérülés: ~'+payback+' év');
+  setTxt('sum_kw',model+' kW');
+  setTxt('sum_pay',payback<50?payback+' év':'15+ év');
+}
+
+/* ══════════════ PÁLYÁZAT ══════════════ */
+function showPal(){
+  const ct=gVal('clientType'), own=gVal('owner');
+  const el=$('palInfo'), txt=$('palTxt');
+  if(ct==='private'&&own==='yes'){
+    txt.innerHTML='<strong>✅ Valószínűleg jogosult az Otthon Melege Programra!</strong> Akár 50% vissza nem térítendő támogatás (max. ~2,5M Ft) elérhető. A pontos jogosultság és az igénylési folyamat részleteiről szakértőnk tájékoztatja.';
+    el.style.display='flex';
+  } else if(ct==='company'){
+    txt.innerHTML='<strong>Vállalkozásoknak</strong> az Otthon Melege Program jellemzően nem elérhető, de ipari és kereskedelmi célú telepítésekre más támogatási lehetőségek léteznek.';
+    el.style.display='flex';
+  } else {el.style.display='none';}
+}
+
+function showRadWarn(){
+  const el=$('radWarn');
+  if(heatingType==='radiator'){el.style.display='flex';}
+  else{el.style.display='none';}
+}
+
+/* ══════════════ CHART ══════════════ */
+function drawChart(){
+  if(!hR.totalCost)return;
+  const svg=$('hpSvg'),W=800,H=130,years=15;
+
+  // HP cumulative cost
+  const hpPts=[];
+  for(let y=0;y<=years;y++) hpPts.push(hR.totalCost+hR.annCost*y);
+
+  // Gas cumulative cost (no upfront, just running)
+  const gasPts=[];
+  for(let y=0;y<=years;y++) gasPts.push(hR.currentCost*y);
+
+  const allVals=[...hpPts,...gasPts];
+  const mn=0, mx=Math.max(...allVals), rng=mx-mn||1;
+  const toY=v=>H-10-((v-mn)/rng)*(H-22);
+  const toX=y=>(y/years)*W;
+
+  let hpPath='', gasPath='';
+  hpPts.forEach((v,i)=>{hpPath+=(i===0?'M':'L')+toX(i)+','+toY(v);});
+  gasPts.forEach((v,i)=>{gasPath+=(i===0?'M':'L')+toX(i)+','+toY(v);});
+
+  // Intersection
+  let cx=null;
+  for(let i=1;i<=years;i++){
+    if(hpPts[i]<=gasPts[i]&&hpPts[i-1]>gasPts[i-1]){
+      const t=(gasPts[i-1]-hpPts[i-1])/((hpPts[i]-hpPts[i-1])-(gasPts[i]-gasPts[i-1]));
+      cx=toX(i-1+t);
+      break;
+    }
+  }
+
+  let svgContent = '';
+  svgContent += '<path d="' + hpPath + ' L' + toX(years) + ',' + (H-10) + ' L' + toX(0) + ',' + (H-10) + ' Z" fill="rgba(245,158,11,0.08)"/>';
+  svgContent += '<path d="' + gasPath + '" fill="none" stroke="rgba(239,68,68,0.6)" stroke-width="2" stroke-dasharray="6 4" stroke-linecap="round"/>';
+  svgContent += '<path d="' + hpPath + '" fill="none" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+  if(cx !== null) {
+    const idx = Math.min(Math.round(cx / (W/years)), years);
+    const cy = toY(hpPts[idx] || hpPts[hpPts.length-1]);
+    svgContent += '<line x1="' + cx + '" y1="4" x2="' + cx + '" y2="' + (H-4) + '" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3" opacity=".8"/>';
+    svgContent += '<circle cx="' + cx + '" cy="' + cy + '" r="6" fill="#F59E0B"/>';
+  }
+  svgContent += '<text x="6" y="14" font-size="10" fill="#F59E0B" font-family="sans-serif">Hőszivattyú</text>';
+  svgContent += '<text x="' + (W-6) + '" y="14" font-size="10" fill="rgba(239,68,68,0.8)" font-family="sans-serif" text-anchor="end">Gázfűtés (összehasonlítás)</text>';
+  svg.innerHTML = svgContent;
+}
+
+/* ══════════════ LEAD ══════════════ */
+function submitLead(){
+  const gdpr=$('gdpr');
+  if(!gdpr||!gdpr.checked){alert('Kérjük fogadja el az adatkezelési tájékoztatót!');return;}
+  const name=$('ln').value.trim(),phone=$('lp').value.trim(),email=$('le').value.trim();
+  if(!name||!phone||!email){alert('Kérjük töltse ki a kötelező mezőket!');return;}
+  const leadData={mode:'heatpump',contact:{name,phone,email,zip:$('lz').value,time:$('ltime').value,note:$('lnote').value},results:hR,timestamp:new Date().toISOString()};
+  console.log('HEATPUMP LEAD:',leadData);
+  $('bk').classList.add('show');
+  initCal();
+  $('bk').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ══════════════ CALENDAR ══════════════ */
+const HU_MO=['Január','Február','Március','Április','Május','Június','Július','Augusztus','Szeptember','Október','November','December'];
+const HU_DN=['H','K','Sze','Cs','P','Szo','V'];
+const TIMES=['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00','18:00'];
+
+function initCal(){const now=new Date();calY=now.getFullYear();calM=now.getMonth();selDate=null;selTime=null;renderCal();renderSlots();}
+function calNav(d){calM+=d;if(calM>11){calM=0;calY++;}if(calM<0){calM=11;calY--;}selDate=null;selTime=null;renderCal();renderSlots();$('btnConfirm').style.display='none';}
+function renderCal(){
+  setTxt('calMo',HU_MO[calM]+' '+calY);
+  const g=$('calGrid');const today=new Date();
+  const fd=new Date(calY,calM,1).getDay();const off=fd===0?6:fd-1;
+  const dim=new Date(calY,calM+1,0).getDate();
+  let h=HU_DN.map(d=>`<div class="cdn">${d}</div>`).join('');
+  for(let i=0;i<off;i++)h+=`<div class="cd empty"></div>`;
+  for(let d=1;d<=dim;d++){
+    const dt=new Date(calY,calM,d);const dow=dt.getDay();
+    const isPast=dt<new Date(today.getFullYear(),today.getMonth(),today.getDate());
+    const isWE=dow===0||dow===6;
+    const isSel=selDate&&selDate.getDate()===d&&selDate.getMonth()===calM;
+    let cls='cd';if(isPast||isWE)cls+=' past';if(dt.toDateString()===today.toDateString())cls+=' today';if(isSel)cls+=' sel';
+    h+=`<div class="${cls}" ${!(isPast||isWE)?`onclick="pickDate(${d})"`:''}>${d}</div>`;
+  }
+  g.innerHTML=h;
+}
+function pickDate(d){selDate=new Date(calY,calM,d);selTime=null;renderCal();renderSlots();$('btnConfirm').style.display='none';}
+function renderSlots(){$('calSlots').innerHTML=TIMES.map(t=>`<div class="slot${t===selTime?' sel':''}" onclick="pickTime('${t}')">${t}</div>`).join('');}
+function pickTime(t){selTime=t;renderSlots();if(selDate)$('btnConfirm').style.display='block';}
+function confirmBk(){
+  if(!selDate||!selTime)return;
+  const ds=`${selDate.getFullYear()}.${String(selDate.getMonth()+1).padStart(2,'0')}.${String(selDate.getDate()).padStart(2,'0')} ${selTime}`;
+  console.log('BOOKING:',ds);
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  $('successPanel').classList.add('on');
+  $('pf').style.width='100%';updateSteps(5);
+}
+
+/* ══════════════ INIT ══════════════ */
+calc1();updateSteps(1);
+</script>
+</body>
+</html>

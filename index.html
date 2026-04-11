@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeadKalc — Több lead. Kevesebb munka.</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init('PhzpZb3qJG2-W8Cft');</script>
+<style>
+:root{
+  --sun:#F59E0B; --sun2:#F97316; --sunG:linear-gradient(135deg,#F59E0B,#F97316);
+  --ice:#06B6D4; --ice2:#2563EB; --iceG:linear-gradient(135deg,#06B6D4,#2563EB);
+  --ok:#10B981;
+  --bg:#06080F; --s1:#0C1018; --s2:#111827; --s3:#1A2235;
+  --bdr:rgba(255,255,255,0.07); --bdr2:rgba(255,255,255,0.13);
+  --txt:#F1F5FF; --txt2:#94A3B8; --txt3:#64748B;
+  --fd:'Bricolage Grotesque',sans-serif;
+  --fb:'Instrument Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--txt);font-family:var(--fb);overflow-x:hidden;}
+::selection{background:rgba(245,158,11,.3);}
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;
+  background:rgba(6,8,15,0.7);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--bdr);
+  transition:background .3s;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo-mark{width:34px;height:34px;border-radius:9px;background:var(--sunG);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 0 20px rgba(245,158,11,.4);}
+.nav-logo-name{font-family:var(--fd);font-size:17px;font-weight:800;letter-spacing:-.4px;}
+.nav-logo-name span{background:var(--sunG);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-links{display:flex;align-items:center;gap:32px;}
+.nav-links a{font-size:13px;font-weight:500;color:var(--txt2);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--txt);}
+.nav-cta{padding:9px 20px;border-radius:9px;background:var(--sunG);color:#fff;font-family:var(--fd);font-size:13px;font-weight:700;border:none;cursor:pointer;text-decoration:none;box-shadow:0 4px 16px rgba(245,158,11,.35);transition:all .25s;}
+.nav-cta:hover{box-shadow:0 6px 24px rgba(245,158,11,.5);transform:translateY(-1px);}
+.nav-mobile-menu{display:none;background:none;border:none;color:var(--txt);font-size:22px;cursor:pointer;}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 20% 40%,rgba(245,158,11,.07) 0%,transparent 60%),radial-gradient(ellipse 60% 60% at 80% 60%,rgba(6,182,212,.06) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 50% 80%,rgba(37,99,235,.05) 0%,transparent 50%);animation:bgShift 12s ease-in-out infinite alternate;}
+@keyframes bgShift{from{opacity:.7;}to{opacity:1;}}
+.hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(var(--bdr) 1px,transparent 1px),linear-gradient(90deg,var(--bdr) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 0%,transparent 70%);}
+.hero-inner{position:relative;z-index:2;max-width:820px;}
+.hero-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:99px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--sun);margin-bottom:28px;animation:fadeDown .6s ease both;}
+.hero-chip-dot{width:6px;height:6px;border-radius:50%;background:var(--sun);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-12px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.hero-h1{font-family:var(--fd);font-size:clamp(36px,6vw,72px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:22px;animation:fadeUp .7s .1s ease both;}
+.hero-h1 .gold{background:var(--sunG);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-h1 .teal{background:var(--iceG);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-size:clamp(15px,2vw,19px);color:var(--txt2);line-height:1.7;max-width:580px;margin:0 auto 36px;animation:fadeUp .7s .2s ease both;}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;animation:fadeUp .7s .3s ease both;}
+.btn-primary{padding:15px 32px;border-radius:12px;background:var(--sunG);color:#fff;font-family:var(--fd);font-size:15px;font-weight:700;border:none;cursor:pointer;text-decoration:none;box-shadow:0 6px 28px rgba(245,158,11,.4);transition:all .25s;display:inline-flex;align-items:center;gap:8px;}
+.btn-primary:hover{box-shadow:0 10px 40px rgba(245,158,11,.55);transform:translateY(-2px);}
+.btn-ghost{padding:15px 28px;border-radius:12px;background:transparent;border:1.5px solid var(--bdr2);color:var(--txt2);font-family:var(--fd);font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:8px;}
+.btn-ghost:hover{border-color:var(--txt2);color:var(--txt);}
+.hero-stats{display:flex;flex-wrap:wrap;gap:32px;justify-content:center;margin-top:64px;animation:fadeUp .7s .45s ease both;}
+.hstat{text-align:center;}
+.hstat-num{font-family:var(--fd);font-size:32px;font-weight:800;background:var(--sunG);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hstat-lbl{font-size:12px;color:var(--txt3);margin-top:4px;font-weight:500;}
+section{padding:100px 24px;}
+.container{max-width:1100px;margin:0 auto;}
+.sec-chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--sun);margin-bottom:16px;}
+.sec-h{font-family:var(--fd);font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:16px;}
+.sec-sub{font-size:17px;color:var(--txt2);line-height:1.7;max-width:560px;}
+.center{text-align:center;}
+.center .sec-sub{margin:0 auto;}
+.logos-bar{padding:32px 24px;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);background:var(--s1);}
+.logos-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:40px;}
+.logos-label{font-size:12px;color:var(--txt3);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+.logo-item{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--txt3);letter-spacing:-.3px;opacity:.5;transition:opacity .2s;}
+.logo-item:hover{opacity:.9;}
+.how{background:var(--s1);}
+.steps-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:64px;position:relative;}
+.steps-flow::before{content:'';position:absolute;top:28px;left:calc(12.5% + 16px);right:calc(12.5% + 16px);height:2px;background:linear-gradient(90deg,var(--sun),var(--ice));opacity:.3;}
+.sf-step{text-align:center;padding:0 20px;position:relative;}
+.sf-num{width:56px;height:56px;border-radius:50%;background:var(--s2);border:2px solid var(--bdr2);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:18px;font-weight:800;margin:0 auto 20px;position:relative;z-index:2;transition:all .3s;}
+.sf-step:nth-child(1) .sf-num{border-color:var(--sun);color:var(--sun);box-shadow:0 0 20px rgba(245,158,11,.2);}
+.sf-step:nth-child(2) .sf-num{border-color:rgba(245,158,11,.5);color:rgba(245,158,11,.7);}
+.sf-step:nth-child(3) .sf-num{border-color:rgba(6,182,212,.5);color:rgba(6,182,212,.7);}
+.sf-step:nth-child(4) .sf-num{border-color:var(--ice);color:var(--ice);box-shadow:0 0 20px rgba(6,182,212,.2);}
+.sf-icon{font-size:22px;margin-bottom:10px;}
+.sf-title{font-family:var(--fd);font-size:16px;font-weight:700;margin-bottom:8px;}
+.sf-desc{font-size:13px;color:var(--txt2);line-height:1.6;}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bdr);border:1px solid var(--bdr);border-radius:20px;overflow:hidden;margin-top:64px;}
+.feat{background:var(--s1);padding:32px 28px;transition:background .2s;position:relative;overflow:hidden;}
+.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity .3s;}
+.feat:nth-child(odd)::before{background:var(--sunG);}
+.feat:nth-child(even)::before{background:var(--iceG);}
+.feat:hover{background:var(--s2);}
+.feat:hover::before{opacity:1;}
+.feat-ico{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;}
+.feat:nth-child(odd) .feat-ico{background:rgba(245,158,11,.1);}
+.feat:nth-child(even) .feat-ico{background:rgba(6,182,212,.1);}
+.feat-title{font-family:var(--fd);font-size:17px;font-weight:700;margin-bottom:10px;}
+.feat-desc{font-size:13px;color:var(--txt2);line-height:1.7;}
+.feat-tag{display:inline-block;margin-top:14px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:99px;}
+.feat:nth-child(odd) .feat-tag{background:rgba(245,158,11,.1);color:var(--sun);}
+.feat:nth-child(even) .feat-tag{background:rgba(6,182,212,.1);color:var(--ice);}
+.demo-wrap{margin-top:48px;border:1px solid var(--bdr2);border-radius:24px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04);}
+.demo-topbar{background:var(--s2);padding:14px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--bdr);}
+.demo-dots{display:flex;gap:6px;}
+.demo-dot{width:12px;height:12px;border-radius:50%;}
+.demo-dot:nth-child(1){background:#FF5F57;}
+.demo-dot:nth-child(2){background:#FFBD2E;}
+.demo-dot:nth-child(3){background:#28CA41;}
+.demo-url{flex:1;background:var(--s3);border-radius:6px;padding:5px 12px;font-size:11px;color:var(--txt3);display:flex;align-items:center;gap:6px;}
+.demo-frame{width:100%;border:none;height:820px;background:var(--bg);display:block;}
+.metrics{background:linear-gradient(135deg,rgba(245,158,11,.05),rgba(6,182,212,.03));border:1px solid var(--bdr2);border-radius:24px;padding:60px 48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+.metrics-left .sec-h{margin-bottom:20px;}
+.metrics-list{display:flex;flex-direction:column;gap:16px;margin-top:28px;}
+.met-item{display:flex;gap:14px;align-items:flex-start;padding:16px;background:rgba(255,255,255,.03);border:1px solid var(--bdr);border-radius:12px;}
+.met-ico{font-size:20px;flex-shrink:0;margin-top:1px;}
+.met-body{flex:1;}
+.met-title{font-family:var(--fd);font-size:14px;font-weight:700;margin-bottom:4px;}
+.met-desc{font-size:12px;color:var(--txt2);line-height:1.6;}
+.metrics-right{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.mcard{background:var(--s2);border:1px solid var(--bdr2);border-radius:16px;padding:24px 20px;text-align:center;}
+.mcard-num{font-family:var(--fd);font-size:36px;font-weight:800;background:var(--sunG);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:8px;}
+.mcard:nth-child(even) .mcard-num{background:var(--iceG);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.mcard-lbl{font-size:12px;color:var(--txt2);line-height:1.5;}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px;}
+.tcard{background:var(--s2);border:1px solid var(--bdr2);border-radius:18px;padding:28px;position:relative;transition:transform .25s, border-color .25s;}
+.tcard:hover{transform:translateY(-4px);border-color:rgba(245,158,11,.3);}
+.tcard-quote{font-size:28px;line-height:1;background:var(--sunG);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px;}
+.tcard-text{font-size:14px;color:var(--txt2);line-height:1.7;margin-bottom:20px;font-style:italic;}
+.tcard-author{display:flex;align-items:center;gap:12px;}
+.tcard-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:15px;font-weight:800;color:#fff;flex-shrink:0;}
+.tcard:nth-child(1) .tcard-avatar{background:var(--sunG);}
+.tcard:nth-child(2) .tcard-avatar{background:var(--iceG);}
+.tcard:nth-child(3) .tcard-avatar{background:linear-gradient(135deg,#10B981,#059669);}
+.tcard-name{font-family:var(--fd);font-size:13px;font-weight:700;}
+.tcard-role{font-size:11px;color:var(--txt3);margin-top:2px;}
+.stars{color:var(--sun);font-size:13px;margin-bottom:14px;letter-spacing:2px;}
+.pricing-sec{background:var(--s1);}
+.pricing-toggle{display:flex;align-items:center;justify-content:center;gap:14px;margin:32px 0 56px;}
+.ptoggle-lbl{font-size:13px;font-weight:600;color:var(--txt2);}
+.ptoggle-lbl.active{color:var(--txt);}
+.ptoggle{width:48px;height:26px;background:var(--s3);border:1.5px solid var(--bdr2);border-radius:99px;cursor:pointer;position:relative;transition:background .3s;}
+.ptoggle::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--sun);transition:transform .3s;}
+.ptoggle.annual::after{transform:translateX(22px);}
+.ptoggle.annual{background:rgba(245,158,11,.15);}
+.save-badge{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:var(--ok);font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;letter-spacing:.5px;}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;}
+.pcard{background:var(--s2);border:1.5px solid var(--bdr2);border-radius:22px;padding:32px 28px;position:relative;transition:transform .25s, border-color .25s;}
+.pcard:hover{transform:translateY(-4px);}
+.pcard.featured{background:linear-gradient(170deg,#0F1A2E,#0C1422);border-color:var(--sun);transform:scale(1.03);box-shadow:0 0 60px rgba(245,158,11,.15), 0 24px 80px rgba(0,0,0,.4);}
+.pcard.featured:hover{transform:scale(1.03) translateY(-4px);}
+.pcard-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--sunG);color:#fff;font-family:var(--fd);font-size:11px;font-weight:700;padding:5px 16px;border-radius:99px;white-space:nowrap;box-shadow:0 4px 16px rgba(245,158,11,.4);}
+.pcard-ico{font-size:32px;margin-bottom:16px;}
+.pcard-name{font-family:var(--fd);font-size:22px;font-weight:800;margin-bottom:6px;}
+.pcard-tagline{font-size:13px;color:var(--txt2);margin-bottom:24px;line-height:1.5;}
+.pcard-price{display:flex;align-items:baseline;gap:4px;margin-bottom:6px;}
+.pcard-eur{font-family:var(--fd);font-size:44px;font-weight:800;letter-spacing:-2px;}
+.pcard.featured .pcard-eur{background:var(--sunG);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.pcard-period{font-size:14px;color:var(--txt2);}
+.pcard-annual{font-size:12px;color:var(--txt3);margin-bottom:28px;}
+.pcard-divider{height:1px;background:var(--bdr);margin:24px 0;}
+.pcard-features{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+.pf{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--txt2);line-height:1.5;}
+.pf-check{width:18px;height:18px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:1px;}
+.pcard.featured .pf-check{background:rgba(245,158,11,.2);color:var(--sun);}
+.pf-check-default{background:rgba(255,255,255,.08);color:var(--txt2);}
+.pcard-btn{width:100%;padding:14px;border-radius:12px;font-family:var(--fd);font-size:14px;font-weight:700;cursor:pointer;transition:all .25s;border:none;}
+.pcard.featured .pcard-btn{background:var(--sunG);color:#fff;box-shadow:0 6px 24px rgba(245,158,11,.4);}
+.pcard.featured .pcard-btn:hover{box-shadow:0 8px 32px rgba(245,158,11,.55);transform:translateY(-1px);}
+.pcard:not(.featured) .pcard-btn{background:rgba(255,255,255,.06);border:1.5px solid var(--bdr2);color:var(--txt);}
+.pcard:not(.featured) .pcard-btn:hover{background:rgba(255,255,255,.1);}
+.faq-list{display:flex;flex-direction:column;gap:2px;margin-top:56px;}
+.faq-item{background:var(--s2);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;transition:border-color .2s;}
+.faq-item:hover{border-color:var(--bdr2);}
+.faq-q{width:100%;padding:22px 24px;background:none;border:none;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;color:var(--txt);font-family:var(--fd);font-size:15px;font-weight:600;transition:color .2s;}
+.faq-q:hover{color:var(--sun);}
+.faq-icon{width:28px;height:28px;border-radius:8px;background:var(--s3);border:1px solid var(--bdr2);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;color:var(--txt2);transition:transform .3s, background .2s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:rgba(245,158,11,.15);color:var(--sun);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1);}
+.faq-item.open .faq-a{max-height:300px;}
+.faq-a-inner{padding:0 24px 22px;font-size:14px;color:var(--txt2);line-height:1.75;}
+.contact-sec{background:var(--s1);border-top:1px solid var(--bdr);}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
+.contact-form-wrap{background:var(--s2);border:1px solid var(--bdr2);border-radius:22px;padding:36px;}
+.form-title{font-family:var(--fd);font-size:20px;font-weight:800;margin-bottom:6px;}
+.form-sub{font-size:13px;color:var(--txt2);margin-bottom:26px;line-height:1.6;}
+.fld{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+.fld label{font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.7px;}
+.fld input,.fld select,.fld textarea{background:var(--s3);border:1.5px solid var(--bdr2);border-radius:10px;padding:12px 14px;font-family:var(--fb);font-size:14px;color:var(--txt);outline:none;transition:border-color .2s, box-shadow .2s;-webkit-appearance:none;}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--sun);box-shadow:0 0 0 3px rgba(245,158,11,.12);}
+.fld textarea{resize:vertical;min-height:90px;}
+.fld select option{background:var(--s2);}
+.g2f{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.contact-submit{width:100%;padding:15px;border:none;border-radius:12px;background:var(--sunG);color:#fff;font-family:var(--fd);font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;margin-top:8px;box-shadow:0 6px 24px rgba(245,158,11,.35);}
+.contact-submit:hover{box-shadow:0 8px 32px rgba(245,158,11,.5);transform:translateY(-1px);}
+.contact-info{padding-top:8px;}
+.ci-title{font-family:var(--fd);font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1.15;margin-bottom:18px;}
+.ci-sub{font-size:16px;color:var(--txt2);line-height:1.7;margin-bottom:36px;}
+.ci-items{display:flex;flex-direction:column;gap:16px;}
+.ci-item{display:flex;gap:14px;align-items:flex-start;padding:16px;background:var(--s2);border:1px solid var(--bdr);border-radius:12px;}
+.ci-ico{font-size:20px;flex-shrink:0;}
+.ci-label{font-size:11px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px;}
+.ci-val{font-size:14px;font-weight:600;color:var(--txt);}
+.cta-banner{margin:0 24px 80px;background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(6,182,212,.08));border:1px solid rgba(245,158,11,.25);border-radius:28px;padding:72px 48px;text-align:center;position:relative;overflow:hidden;}
+.cta-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(245,158,11,.08),transparent 60%);pointer-events:none;}
+.cta-banner .sec-h{margin-bottom:16px;}
+.cta-banner .sec-sub{margin:0 auto 36px;max-width:520px;}
+.cta-guarantee{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--txt3);margin-top:16px;}
+footer{padding:48px 40px 32px;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.footer-logo{font-family:var(--fd);font-size:17px;font-weight:800;}
+.footer-logo span{background:var(--sunG);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.footer-links{display:flex;gap:24px;}
+.footer-links a{font-size:13px;color:var(--txt3);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--txt);}
+.footer-copy{font-size:12px;color:var(--txt3);}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease, transform .65s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-d1{transition-delay:.1s;}
+.reveal-d2{transition-delay:.2s;}
+.reveal-d3{transition-delay:.3s;}
+@media(max-width:900px){
+  .steps-flow{grid-template-columns:1fr 1fr;}
+  .steps-flow::before{display:none;}
+  .features-grid{grid-template-columns:1fr 1fr;}
+  .testi-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .pcard.featured{transform:none;}
+  .contact-inner{grid-template-columns:1fr;}
+  .metrics{grid-template-columns:1fr;padding:40px 28px;}
+  .metrics-right{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:640px){
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+  .nav-mobile-menu{display:block;}
+  section{padding:72px 20px;}
+  .features-grid{grid-template-columns:1fr;}
+  .g2f{grid-template-columns:1fr;}
+  .cta-banner{margin:0 16px 60px;padding:48px 24px;}
+  footer{padding:32px 20px;}
+  .footer-links{flex-wrap:wrap;gap:14px;}
+  .hero-stats{gap:24px;}
+  .steps-flow{grid-template-columns:1fr 1fr;}
+  .demo-frame{height:600px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-mark">⚡</div>
+    <div class="nav-logo-name">Lead<span>Kalc</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#how">Hogyan működik</a>
+    <a href="#features">Funkciók</a>
+    <a href="#demo">Demo</a>
+    <a href="#pricing">Árak</a>
+    <a href="#contact">Kapcsolat</a>
+  </div>
+  <a href="#contact" class="nav-cta">Ingyenes demo →</a>
+  <button class="nav-mobile-menu" onclick="toggleMenu()">☰</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-chip"><span class="hero-chip-dot"></span> Napelem · Klíma · Hőszivattyú · Magyar piac · 2026</div>
+    <h1 class="hero-h1">
+      Weboldalad legyen<br>
+      a legjobb <span class="gold">értékesítőd</span><br>
+      <span class="teal">éjjel-nappal.</span>
+    </h1>
+    <p class="hero-sub">
+      Professzionális napelem, klíma és hőszivattyú kalkulátor widget, amit 5 perc alatt beépítesz — és azonnal minősített leadeket generál. Minden érdeklődő előre kvalifikálva érkezik hozzád.
+    </p>
+    <div class="hero-btns">
+      <a href="#demo" class="btn-primary">🚀 Kipróbálom ingyen</a>
+      <a href="#pricing" class="btn-ghost">Csomagok és árak →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num">5 perc</div><div class="hstat-lbl">beágyazás ideje</div></div>
+      <div class="hstat"><div class="hstat-num">0 Ft</div><div class="hstat-lbl">fejlesztési költség</div></div>
+      <div class="hstat"><div class="hstat-num">24/7</div><div class="hstat-lbl">automatikus lead gyűjtés</div></div>
+      <div class="hstat"><div class="hstat-num">3 típus</div><div class="hstat-lbl">napelem · klíma · hőszivattyú</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="logos-bar">
+  <div class="logos-inner">
+    <span class="logos-label">Kompatibilis platformok:</span>
+    <span class="logo-item">WordPress</span>
+    <span class="logo-item">Webflow</span>
+    <span class="logo-item">Wix</span>
+    <span class="logo-item">Squarespace</span>
+    <span class="logo-item">Shopify</span>
+    <span class="logo-item">Egyedi HTML</span>
+    <span class="logo-item">Bármilyen weboldal</span>
+  </div>
+</div>
+
+<section class="how" id="how">
+  <div class="container">
+    <div class="center reveal">
+      <div class="sec-chip">⚙️ Hogyan működik</div>
+      <h2 class="sec-h">Egyszerű mint az ABC.<br>Eredménye mint a profié.</h2>
+      <p class="sec-sub">Nem kell fejlesztő, nem kell hónapok. Négy lépésben élőben van a rendszer.</p>
+    </div>
+    <div class="steps-flow">
+      <div class="sf-step reveal reveal-d1">
+        <div class="sf-num">1</div>
+        <div class="sf-icon">📋</div>
+        <div class="sf-title">Válassz csomagot</div>
+        <div class="sf-desc">Napelem, klíma vagy mindkettő — válaszd, amire az üzleted épül. Percek alatt kész.</div>
+      </div>
+      <div class="sf-step reveal reveal-d2">
+        <div class="sf-num">2</div>
+        <div class="sf-icon">🎨</div>
+        <div class="sf-title">Testre szabás</div>
+        <div class="sf-desc">Cégnév, szín, SMTP e-mail — 5 perc alatt beállítod, hogy pontosan a te márkád tükrözze.</div>
+      </div>
+      <div class="sf-step reveal reveal-d3">
+        <div class="sf-num">3</div>
+        <div class="sf-icon">🔌</div>
+        <div class="sf-title">Beágyazás egy sorral</div>
+        <div class="sf-desc">Egyetlen iframe kódsort másol a weboldalra — WordPress, Webflow, bármi működik.</div>
+      </div>
+      <div class="sf-step reveal" style="transition-delay:.4s">
+        <div class="sf-num">4</div>
+        <div class="sf-icon">💰</div>
+        <div class="sf-title">Leadek érkeznek</div>
+        <div class="sf-desc">Az érdeklődők kitöltik, te e-mailben kapod az előre kvalifikált, adatokkal teli leadet.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="container">
+    <div class="center reveal">
+      <div class="sec-chip">✨ Funkciók</div>
+      <h2 class="sec-h">Minden benne van.<br>Semmi felesleges.</h2>
+      <p class="sec-sub">Iparági adatok alapján felépítve — napelem, klíma és hőszivattyú szektorban egyaránt.</p>
+    </div>
+    <div class="features-grid reveal">
+      <div class="feat"><div class="feat-ico">☀️</div><div class="feat-title">Napelem kalkulátor</div><div class="feat-desc">Tető terület, dőlésszög, tájolás, fázis, visszatáplálás, akkumulátor, Napenergia Plusz pályázat jogosultság automatikus meghatározása.</div><div class="feat-tag">5 lépéses folyamat</div></div>
+      <div class="feat"><div class="feat-ico">❄️</div><div class="feat-title">Klíma kalkulátor</div><div class="feat-desc">Pontos kW-igény számítás falanyag, szigetelés, tájolás, emelet alapján. Multi-split, társasházi engedély figyelmeztetés automatikusan.</div><div class="feat-tag">Iparági pontosság</div></div>
+      <div class="feat"><div class="feat-ico">🔥</div><div class="feat-title">Hőszivattyú kalkulátor</div><div class="feat-desc">Teljesítmény, COP hatásfok, éves üzemeltetési költség, megtérülés gázfűtéshez képest, Otthon Melege pályázati jogosultság automatikus ellenőrzése.</div><div class="feat-tag">Megtérülés vs. gázfűtés</div></div>
+      <div class="feat"><div class="feat-ico">📈</div><div class="feat-title">Megtérülés chartok</div><div class="feat-desc">Interaktív SVG grafikon a pénzügyi mérlegről. Az ügyfél látja, mikor térül meg — és miért érdemes most dönteni.</div><div class="feat-tag">Konverzió növelő</div></div>
+      <div class="feat"><div class="feat-ico">📅</div><div class="feat-title">Beépített időpontfoglaló</div><div class="feat-desc">Lead beküldés után azonnal megjelenik a naptár. Az ügyfél időpontot foglal — te már egy kvalifikált konzultációra készülsz.</div><div class="feat-tag">Naptár integráció</div></div>
+      <div class="feat"><div class="feat-ico">🏆</div><div class="feat-title">Pályázati jogosultság</div><div class="feat-desc">Napenergia Plusz (66%, ~2,9M Ft) és Otthon Melege (50%, ~2,5M Ft) pályázat automatikus felismerése — ez lezárja az ajánlatot.</div><div class="feat-tag">Automatikus riasztó</div></div>
+      <div class="feat"><div class="feat-ico">🌙</div><div class="feat-title">Sötét + világos mód</div><div class="feat-desc">A widget automatikusan illeszkedik a weboldalad stílusához. Sötét és világos témából a látogató választ.</div><div class="feat-tag">Minden oldalra illik</div></div>
+      <div class="feat"><div class="feat-ico">📧</div><div class="feat-title">SMTP lead értesítés</div><div class="feat-desc">Minden lead beküldéskor e-mailt kapsz a teljes kalkulációval, az ügyfél adataival és a foglalt időponttal együtt.</div><div class="feat-tag">Azonnali értesítés</div></div>
+      <div class="feat"><div class="feat-ico">📱</div><div class="feat-title">Teljesen reszponzív</div><div class="feat-desc">Mobilon, tableten, asztalon egyformán tökéletes. Az érdeklődők 60%-a mobilról érkezik — ez nálad sem lesz akadály.</div><div class="feat-tag">Mobile first</div></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--s1);padding:80px 24px;">
+  <div class="container">
+    <div class="metrics reveal">
+      <div class="metrics-left">
+        <div class="sec-chip">📊 Miért működik</div>
+        <h2 class="sec-h" style="font-size:clamp(24px,3.5vw,38px)">Az érdeklődők<br>dönteni jönnek,<br>nem csak nézni.</h2>
+        <div class="metrics-list">
+          <div class="met-item"><div class="met-ico">🎯</div><div class="met-body"><div class="met-title">Előre kvalifikált leadek</div><div class="met-desc">Aki kitölti a kalkulátort, az komolyan érdeklődik. Már tudja a várható árat, megtérülést — és igényli az ajánlatot.</div></div></div>
+          <div class="met-item"><div class="met-ico">⏱️</div><div class="met-body"><div class="met-title">Kevesebb telefonos kérdezősködés</div><div class="met-desc">A kalkulátor megválaszolja az első 10 kérdést helyetted. Az első hívás már érdemi tárgyalás.</div></div></div>
+          <div class="met-item"><div class="met-ico">🔄</div><div class="met-body"><div class="met-title">24 órás automatizált lead gyűjtés</div><div class="met-desc">Éjjel, hétvégén, ünnepnapokon is gyűjti a leadeket. Reggel bekapcsolt géppel ott vannak az éjszaka érkezők.</div></div></div>
+        </div>
+      </div>
+      <div class="metrics-right reveal reveal-d2">
+        <div class="mcard"><div class="mcard-num">1 sor</div><div class="mcard-lbl">kód beillesztés és a widget már él az oldalon</div></div>
+        <div class="mcard"><div class="mcard-num">5 lépés</div><div class="mcard-lbl">strukturált adatgyűjtés minden érdeklődőnél</div></div>
+        <div class="mcard"><div class="mcard-num">0–24h</div><div class="mcard-lbl">beüzemelés az első leadig</div></div>
+        <div class="mcard"><div class="mcard-num">14 nap</div><div class="mcard-lbl">pénzvisszafizetési garancia, kockázat nélkül</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="demo" style="padding:100px 24px;">
+  <div class="container">
+    <div class="center reveal">
+      <div class="sec-chip">🖥️ Élő demo</div>
+      <h2 class="sec-h">Próbáld ki most — élőben.</h2>
+      <p class="sec-sub">Ez az a widget, amit az ügyfeleid fognak látni a weboldalon. Teszteld végig — pont így fog működni nálad is.</p>
+    </div>
+    <div class="demo-tabs reveal" style="display:flex;gap:10px;justify-content:center;margin-top:32px;flex-wrap:wrap;">
+      <button onclick="switchDemo('solar',this)" class="demo-tab-btn dtb-active" style="padding:10px 22px;border-radius:99px;border:1.5px solid var(--sun);background:rgba(245,158,11,.12);color:var(--sun);font-family:var(--fd);font-size:13px;font-weight:700;cursor:pointer;">&#9728;&#65039; Napelem</button>
+      <button onclick="switchDemo('hvac',this)" class="demo-tab-btn" style="padding:10px 22px;border-radius:99px;border:1.5px solid var(--bdr2);background:transparent;color:var(--txt2);font-family:var(--fd);font-size:13px;font-weight:700;cursor:pointer;">&#10052;&#65039; Klíma</button>
+      <button onclick="switchDemo('hp',this)" class="demo-tab-btn" style="padding:10px 22px;border-radius:99px;border:1.5px solid var(--bdr2);background:transparent;color:var(--txt2);font-family:var(--fd);font-size:13px;font-weight:700;cursor:pointer;">&#128293; Hőszivattyú</button>
+    </div>
+    <div class="demo-wrap reveal" style="margin-top:20px;">
+      <div class="demo-topbar">
+        <div class="demo-dots"><div class="demo-dot"></div><div class="demo-dot"></div><div class="demo-dot"></div></div>
+        <div class="demo-url"><span>&#128274;</span><span id="demoUrlTxt">leadkalc.hu · widget-solar.html</span></div>
+      </div>
+      <iframe class="demo-frame" id="demoFrame" src="widget-solar.html" title="LeadKalc Widget Demo" loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ROLUNK -->
+<section style="background:var(--s1);padding:100px 24px;" id="rolunk">
+  <div class="container">
+    <div class="center reveal">
+      <div class="sec-chip">👋 Kik vagyunk</div>
+      <h2 class="sec-h">Emberek állnak mögötte.<br>Nem egy névtelen szoftver.</h2>
+      <p class="sec-sub">A LeadKalc-ot magyar vállalkozók építik, magyar energetikai cégek számára — személyes felelősséggel és közvetlen kapcsolattal.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;" class="reveal">
+
+      <div style="background:var(--s2);border:1px solid var(--bdr2);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <img src="IMG_7470.jpeg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Garamszegi Marcell" style="width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:center 10%;border:2px solid rgba(245,158,11,.4);flex-shrink:0;"><div style="width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#F59E0B,#F97316);display:none;align-items:center;justify-content:center;font-family:var(--fd);font-size:22px;font-weight:800;color:#fff;flex-shrink:0;">MG</div>
+          <div>
+            <div style="font-family:var(--fd);font-size:18px;font-weight:800;color:var(--txt);margin-bottom:2px;">Garamszegi Marcell</div>
+            <div style="font-size:12px;color:var(--sun);font-weight:600;letter-spacing:.5px;text-transform:uppercase;">Alapító &amp; Ügyvezető</div>
+          </div>
+        </div>
+        <p style="font-size:14px;color:var(--txt2);line-height:1.7;margin:0;">21 éves vállalkozó vagyok, és azon dolgozom, hogy az energetikai szektor digitális lemaradásán változtassak. A LeadKalcot azzal a céllal építettem, hogy a napelem, klíma és hőszivattyú cégek automatizált, előre kvalifikált leadeket kaphassanak — emberi beavatkozás nélkül, éjjel-nappal.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="font-size:11px;padding:4px 10px;border-radius:99px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--sun);">Értékesítés</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:99px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--sun);">Stratégia</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:99px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--sun);">Üzletfejlesztés</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <a href="tel:+36303562888" style="font-size:13px;color:var(--txt2);text-decoration:none;">📞 +36 30 356 2888</a>
+          <a href="/cdn-cgi/l/email-protection#6805091a0b0d04044e4b5e5c53040d090c0309040b46001d" style="font-size:13px;color:var(--txt2);text-decoration:none;">&#9993; marcell&#64;leadkalc.hu</a>
+        </div>
+      </div>
+
+      <div style="background:var(--s2);border:1px solid var(--bdr2);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:16px;">
+        <div style="font-family:var(--fd);font-size:16px;font-weight:800;color:var(--txt);">Miért bízhat bennünk?</div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">✅</div>
+            <div><div style="font-size:13px;font-weight:600;color:var(--txt);margin-bottom:3px;">14 napos pénzvisszafizetési garancia</div><div style="font-size:12px;color:var(--txt2);line-height:1.6;">Ha az első két hétben bármilyen okból nem elégedett — visszaadjuk a teljes összeget, kérdések nélkül.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">🔒</div>
+            <div><div style="font-size:13px;font-weight:600;color:var(--txt);margin-bottom:3px;">Nincs hosszú távú kötöttség</div><div style="font-size:12px;color:var(--txt2);line-height:1.6;">Bármikor lemondható, nincsenek rejtett díjak vagy kötbérek.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(6,182,212,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">📞</div>
+            <div><div style="font-size:13px;font-weight:600;color:var(--txt);margin-bottom:3px;">Közvetlen kapcsolat az alapítóval</div><div style="font-size:12px;color:var(--txt2);line-height:1.6;">Nem call centerrel, hanem személyesen Marcellel kommunikál — mindig elérhető.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">🏗️</div>
+            <div><div style="font-size:13px;font-weight:600;color:var(--txt);margin-bottom:3px;">Korai hozzáférés — alapítói ár</div><div style="font-size:12px;color:var(--txt2);line-height:1.6;">Az első 10 partner alapítói feltételekkel csatlakozhat és közvetlen ráhatása lesz a fejlesztés irányára.</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PRICING ═══════ -->
+<section class="pricing-sec" id="pricing">
+  <div class="container">
+    <div class="center reveal">
+      <div class="sec-chip">💶 Árak</div>
+      <h2 class="sec-h">Átlátható árazás.<br>Semmi rejtett díj.</h2>
+      <p class="sec-sub">Válaszd ki, ami a cégedhez illik. Bármikor váltható, bármikor bővíthető.</p>
+    </div>
+
+    <div class="pricing-toggle">
+      <span class="ptoggle-lbl active" id="moLbl">Havi</span>
+      <div class="ptoggle" id="pToggle" onclick="toggleAnnual()"></div>
+      <span class="ptoggle-lbl" id="yrLbl">Éves</span>
+      <span class="save-badge">−17% megtakarítás</span>
+    </div>
+
+    <div class="pricing-grid reveal">
+
+      <!-- SOLAR -->
+      <div class="pcard">
+        <div class="pcard-ico">☀️</div>
+        <div class="pcard-name">Solar</div>
+        <div class="pcard-tagline">Napelem cégeknek, akik komoly lead generátort akarnak.</div>
+        <div class="pcard-price">
+          <span class="pcard-eur" id="price1">90</span>
+          <span class="pcard-period">EUR / hó</span>
+        </div>
+        <div class="pcard-annual" id="annual1">vagy 899 EUR / év (≈ 2 hónap ingyen)</div>
+        <div class="pcard-divider"></div>
+        <div class="pcard-features">
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Napelem kalkulátor widget</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>5 lépéses, iparági adatgyűjtés</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>25 éves megtérülés grafikon</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>CO₂ és pályázati jogosultság</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Beépített időpontfoglaló</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>SMTP lead értesítés</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Sötét + világos téma</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>1 domain beágyazás</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>E-mail support</div>
+        </div>
+        <button class="pcard-btn" onclick="scrollToContact('Solar csomag')">Érdekel →</button>
+      </div>
+
+      <!-- KLÍMA -->
+      <div class="pcard">
+        <div class="pcard-ico">❄️</div>
+        <div class="pcard-name">Klíma</div>
+        <div class="pcard-tagline">Klíma cégeknek, akik pontos kapacitás számítást akarnak.</div>
+        <div class="pcard-price">
+          <span class="pcard-eur" id="price2">90</span>
+          <span class="pcard-period">EUR / hó</span>
+        </div>
+        <div class="pcard-annual" id="annual2">vagy 899 EUR / év (≈ 2 hónap ingyen)</div>
+        <div class="pcard-divider"></div>
+        <div class="pcard-features">
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Klíma kalkulátor widget</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Pontos kW / BTU igényszámítás</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>10 éves költség grafikon</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Engedély + társasházi riasztó</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Beépített időpontfoglaló</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>SMTP lead értesítés</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Sötét + világos téma</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>1 domain beágyazás</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>E-mail support</div>
+        </div>
+        <button class="pcard-btn" onclick="scrollToContact('Klíma csomag')">Érdekel →</button>
+      </div>
+
+      <!-- HŐSZIVATTYÚ -->
+      <div class="pcard">
+        <div class="pcard-ico">🔥</div>
+        <div class="pcard-name">Hőszivattyú</div>
+        <div class="pcard-tagline">Hőszivattyú cégeknek, akik prémium leadeket akarnak.</div>
+        <div class="pcard-price">
+          <span class="pcard-eur" id="price3">120</span>
+          <span class="pcard-period">EUR / hó</span>
+        </div>
+        <div class="pcard-annual" id="annual3">vagy 1 190 EUR / év (≈ 2 hónap ingyen)</div>
+        <div class="pcard-divider"></div>
+        <div class="pcard-features">
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Hőszivattyú kalkulátor widget</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Teljesítmény + COP számítás</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Megtérülés vs. gázfűtés chart</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Otthon Melege pályázat riasztó</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Beépített időpontfoglaló</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>SMTP lead értesítés</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>Sötét + világos téma</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>1 domain beágyazás</div>
+          <div class="pf"><div class="pf-check pf-check-default">✓</div>E-mail support</div>
+        </div>
+        <button class="pcard-btn" onclick="scrollToContact('Hőszivattyú csomag')">Érdekel →</button>
+      </div>
+
+      <!-- TELJES ENERGIA — FEATURED -->
+      <div class="pcard featured">
+        <div class="pcard-badge">🏆 Legjobb érték</div>
+        <div class="pcard-ico">⚡</div>
+        <div class="pcard-name">Teljes Energia</div>
+        <div class="pcard-tagline">Mind a három kalkulátor — energetikai cégeknek, akik mindent akarnak.</div>
+        <div class="pcard-price">
+          <span class="pcard-eur" id="price4">199</span>
+          <span class="pcard-period">EUR / hó</span>
+        </div>
+        <div class="pcard-annual" id="annual4">vagy 1 990 EUR / év (≈ 2,5 hónap ingyen)</div>
+        <div class="pcard-divider"></div>
+        <div class="pcard-features">
+          <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div>Napelem kalkulátor widget</div>
+          <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div>Klíma kalkulátor widget</div>
+          <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div>Hőszivattyú kalkulátor widget</div>
+          <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div>Mindhárom grafikon + CO₂</div>
+          <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div>Összes pályázati riasztó</div>
+          <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div>Beépített időpontfoglaló</div>
+          <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div>SMTP lead értesítés</div>
+          <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div>3 domain beágyazás</div>
+          <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div>Prioritás support</div>
+          <div class="pf"><div class="pf-check" style="background:rgba(245,158,11,.2);color:var(--sun)">✓</div><strong>Ingyenes beágyazás segítség</strong></div>
+        </div>
+        <button class="pcard-btn" onclick="scrollToContact('Teljes Energia csomag')">Kezdjük el →</button>
+      </div>
+
+    </div>
+    <p style="text-align:center;font-size:13px;color:var(--txt3);margin-top:28px;">
+      ✅ 14 napos pénzvisszafizetési garancia · Nincs hosszú távú kötöttség · Bármikor lemondható
+    </p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <div class="center reveal">
+      <div class="sec-chip">❓ GYIK</div>
+      <h2 class="sec-h">Gyakori kérdések.</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Milyen weboldalra lehet beágyazni?<div class="faq-icon">+</div></button><div class="faq-a"><div class="faq-a-inner">Bármilyenre. WordPress, Webflow, Wix, egyedi HTML oldal — egyetlen iframe kódsort kell beilleszteni, és működik. Ha segítségre van szükséged, a Teljes Energia csomagban ingyenesen segítünk a beágyazásban.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Hogyan kapom meg a leadeket?<div class="faq-icon">+</div></button><div class="faq-a"><div class="faq-a-inner">SMTP e-mail értesítésben — minden lead beküldésekor azonnal e-mailt kapsz, amely tartalmazza az ügyfél nevét, telefonját, e-mail címét, a foglalt időpontot, és az összes kalkulált adatot (rendszerméret, megtérülés, költség stb.).</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Testre szabható a widget megjelenése?<div class="faq-icon">+</div></button><div class="faq-a"><div class="faq-a-inner">Igen. A cégnév, a gombok szövege, az e-mail cím, az időpontok és az alap számítási paraméterek testre szabhatók. Ha egyedi branding szükséges (saját szín, logó), egyedi ajánlatot adunk.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Mennyire pontosak a kalkulációk?<div class="faq-icon">+</div></button><div class="faq-a"><div class="faq-a-inner">A számítások iparági standard képleteken alapulnak (W/m² módszer, COP, tájolási korrekció, dőlésszög faktor). Az eredmények közelítő értékek — céljuk az, hogy az ügyfél reális képet kapjon és motiválva legyen ajánlatot kérni.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Működik mobilon?<div class="faq-icon">+</div></button><div class="faq-a"><div class="faq-a-inner">Igen, teljesen reszponzív. Mobilon, tableten és asztali gépen egyformán tökéletesen jelenik meg. Az érdeklődők több mint 60%-a mobilról érkezik — ezért ez nem opcionális, hanem alap.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Mi van, ha nem vagyok megelégedve?<div class="faq-icon">+</div></button><div class="faq-a"><div class="faq-a-inner">14 napos pénzvisszafizetési garanciát adunk. Ha az első két hétben bármilyen okból nem vagy megelégedve, visszafizetjük a teljes díjat — kérdések nélkül. Nincs hosszú távú kötelezettség, bármikor lemondható.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Napelem ÉS klíma cégnek is eladjátok?<div class="faq-icon">+</div></button><div class="faq-a"><div class="faq-a-inner">Igen — és ha mindkét területen dolgozol, a Solar + Klíma csomag a legjobb választás. Egy widgetben kezelhetők mind a napelem, mind a klíma érdeklődők, az ügyfél maga választja ki, hogy melyik kalkulátort tölti ki.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-sec" id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-info reveal">
+        <div class="sec-chip">📩 Kapcsolat</div>
+        <h2 class="ci-title">Beszéljük meg<br>személyesen.</h2>
+        <p class="ci-sub">Töltsd ki az űrlapot és 24 órán belül visszahívlak. Megmutatom élőben, hogyan fog működni a te weboldaladba ágyazva.</p>
+        <div class="ci-items">
+          <div class="ci-item"><div class="ci-ico">⚡</div><div class="ci-body"><div class="ci-label">Válaszidő</div><div class="ci-val">24 órán belül — általában 2–4 óra</div></div></div>
+          <div class="ci-item"><div class="ci-ico">🎯</div><div class="ci-body"><div class="ci-label">Demo</div><div class="ci-val">Élő bemutatót tartunk a te oldaladra szabva</div></div></div>
+          <div class="ci-item"><div class="ci-ico">🔒</div><div class="ci-body"><div class="ci-label">Garancia</div><div class="ci-val">14 napos pénzvisszafizetési garancia</div></div></div>
+        </div>
+      </div>
+      <div class="contact-form-wrap reveal reveal-d2">
+        <div class="form-title">Demo kérés / Ajánlatkérés</div>
+        <div class="form-sub">Add meg az adataid és visszahívlak — semmi spam, semmi kötöttség.</div>
+        <div class="g2f">
+          <div class="fld"><label>Neved *</label><input type="text" id="cn" placeholder="Kovács János"></div>
+          <div class="fld"><label>Telefonszám *</label><input type="tel" id="cp" placeholder="+36 30 123 4567"></div>
+        </div>
+        <div class="fld"><label>E-mail cím *</label><input type="email" id="ce" placeholder="kovacs.janos@ceg.hu"></div>
+        <div class="fld"><label>Cégnév</label><input type="text" id="cc" placeholder="pl. SolarTech Kft."></div>
+        <div class="fld">
+          <label>Melyik csomag érdekel?</label>
+          <select id="cpkg">
+            <option value="">Még nem döntöttem</option>
+            <option value="solar">☀️ Solar — 90 EUR/hó</option>
+            <option value="hvac">❄️ Klíma — 90 EUR/hó</option>
+            <option value="hp">🔥 Hőszivattyú — 120 EUR/hó</option>
+            <option value="combo">⚡ Teljes Energia — 199 EUR/hó (legjobb érték)</option>
+          </select>
+        </div>
+        <div class="fld"><label>Üzenet (opcionális)</label><textarea id="cm" placeholder="pl. weboldal linkje, speciális igény..."></textarea></div>
+        <button class="contact-submit" onclick="submitContact()">📩 Visszahívást kérek →</button>
+        <p style="font-size:11px;color:var(--txt3);margin-top:10px;text-align:center;">🔒 Adatait GDPR szerint kezeljük. Spam? Soha.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-banner reveal">
+  <div style="position:relative;z-index:2;">
+    <h2 class="sec-h">Indítsd el ma.<br>Az első lead holnap megérkezhet.</h2>
+    <p class="sec-sub">Több száz napelem, klíma és hőszivattyú cég versenyez ugyanazokért az ügyfelekért. A LeadKalc az a fegyver, ami előrébb visz.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="#contact" class="btn-primary">🚀 Ingyenes demo kérése</a>
+      <a href="#demo" class="btn-ghost">Próbálom ki élőben →</a>
+    </div>
+    <div class="cta-guarantee">🔒 14 napos pénzvisszafizetési garancia · Nincs hosszú távú kötöttség</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Lead<span>Kalc</span></div>
+  <div class="footer-links">
+    <a href="#how">Hogyan működik</a>
+    <a href="#features">Funkciók</a>
+    <a href="#pricing">Árak</a>
+    <a href="#faq">GYIK</a>
+    <a href="#contact">Kapcsolat</a>
+    <a href="aszf.html">ÁSZF</a>
+  </div>
+  <div class="footer-copy">© 2026 LeadKalc · Minden jog fenntartva</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ANNUAL TOGGLE — frissített árakkal */
+let annual=false;
+function toggleAnnual(){
+  annual=!annual;
+  const t=document.getElementById('pToggle');
+  t.classList.toggle('annual',annual);
+  document.getElementById('moLbl').classList.toggle('active',!annual);
+  document.getElementById('yrLbl').classList.toggle('active',annual);
+  document.getElementById('price1').textContent=annual?'75':'90';
+  document.getElementById('price2').textContent=annual?'75':'90';
+  document.getElementById('price3').textContent=annual?'99':'120';
+  document.getElementById('price4').textContent=annual?'165':'199';
+  document.getElementById('annual1').textContent=annual?'899 EUR / év — 181 EUR megtakarítás':'vagy 899 EUR / év (≈ 2 hónap ingyen)';
+  document.getElementById('annual2').textContent=annual?'899 EUR / év — 181 EUR megtakarítás':'vagy 899 EUR / év (≈ 2 hónap ingyen)';
+  document.getElementById('annual3').textContent=annual?'1 190 EUR / év — 250 EUR megtakarítás':'vagy 1 190 EUR / év (≈ 2 hónap ingyen)';
+  document.getElementById('annual4').textContent=annual?'1 990 EUR / év — 398 EUR megtakarítás':'vagy 1 990 EUR / év (≈ 2,5 hónap ingyen)';
+}
+function switchDemo(mode, btn) {
+  var srcs = {solar:'widget-solar.html', hvac:'widget-hvac.html', hp:'widget-heatpump.html'};
+  var urls = {solar:'leadkalc.hu · widget-solar.html', hvac:'leadkalc.hu · widget-hvac.html', hp:'leadkalc.hu · widget-heatpump.html'};
+  document.getElementById('demoFrame').src = srcs[mode];
+  document.getElementById('demoUrlTxt').textContent = urls[mode];
+  document.querySelectorAll('.demo-tab-btn').forEach(function(b) {
+    b.style.border = '1.5px solid rgba(255,255,255,0.12)';
+    b.style.background = 'transparent';
+    b.style.color = '#94A3B8';
+  });
+  var colors = {solar:'#F59E0B', hvac:'#06B6D4', hp:'#F97316'};
+  btn.style.border = '1.5px solid ' + colors[mode];
+  btn.style.background = 'rgba(' + (mode==='solar'?'245,158,11':mode==='hvac'?'6,182,212':'249,115,22') + ',.12)';
+  btn.style.color = colors[mode];
+}
+function toggleFaq(btn){
+  const item=btn.closest('.faq-item');
+  const wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
+}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+function scrollToContact(pkg){
+  document.getElementById('cpkg').value=
+    pkg.includes('Teljes')?'combo':pkg.includes('Hőszivattyú')?'hp':pkg.includes('Solar')?'solar':'hvac';
+  document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+}
+function submitContact(){
+  const name=document.getElementById('cn').value.trim();
+  const phone=document.getElementById('cp').value.trim();
+  const email=document.getElementById('ce').value.trim();
+  if(!name||!phone||!email){alert('Kérjük töltse ki a kötelező mezőket!');return;}
+  const btn=document.querySelector('.contact-submit');
+  btn.textContent='⏳ Küldés...';
+  btn.disabled=true;
+  emailjs.send('leadkalc','template_tvi71t7',{
+    name:name,
+    phone:phone,
+    email:email,
+    company:document.getElementById('cc').value||'—',
+    package:document.getElementById('cpkg').value||'—',
+    message:document.getElementById('cm').value||'—'
+  }).then(function(){
+    btn.textContent='✅ Megkaptuk! Hamarosan jelentkezünk.';
+    btn.style.background='linear-gradient(135deg,#10B981,#059669)';
+  },function(error){
+    btn.textContent='❌ Hiba történt. Kérjük próbálja újra.';
+    btn.style.background='linear-gradient(135deg,#EF4444,#DC2626)';
+    btn.disabled=false;
+    btn.style.background='linear-gradient(135deg,#EF4444,#DC2626)';
+    btn.disabled=false;
+    console.error('EmailJS hiba:',error);
+  });
+}
+function toggleMenu(){
+  const menu=document.querySelector('.nav-links');
+  if(menu)menu.classList.toggle('open');
+}
+</script>
+</body>
+</html>
