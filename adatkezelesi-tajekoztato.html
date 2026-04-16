@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adatkezelési Tájékoztató — LeadKalc</title>
+<meta name="description" content="A LeadKalc adatkezelési tájékoztatója a GDPR és az Infotv. szerint. Adatkezelő: Garamszegi Marcell ev.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://leadkalc.hu/adatkezelesi-tajekoztato.html">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#080C18;color:#CBD5E1;font-family:"Instrument Sans",sans-serif;font-size:15px;line-height:1.8;}
+nav{background:#0F1623;border-bottom:1px solid rgba(255,255,255,0.06);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-logo{font-family:"Bricolage Grotesque",sans-serif;font-size:18px;font-weight:800;color:#F1F5FF;text-decoration:none;}
+.nav-logo span{color:#F59E0B;}
+.nav-back{font-size:13px;color:#64748B;text-decoration:none;display:flex;align-items:center;gap:6px;}
+.nav-back:hover{color:#F59E0B;}
+.container{max-width:800px;margin:0 auto;padding:60px 32px 80px;}
+.doc-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.doc-badge{display:inline-block;font-size:11px;font-weight:600;padding:4px 12px;border-radius:99px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:#F59E0B;letter-spacing:.5px;text-transform:uppercase;margin-bottom:16px;}
+.doc-title{font-family:"Bricolage Grotesque",sans-serif;font-size:32px;font-weight:800;color:#F1F5FF;line-height:1.2;margin-bottom:12px;}
+.doc-meta{font-size:13px;color:#64748B;display:flex;flex-wrap:wrap;gap:16px;}
+.doc-meta span{display:flex;align-items:center;gap:5px;}
+.warning-box{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:12px;padding:18px 20px;margin-bottom:40px;font-size:13px;color:#94A3B8;line-height:1.7;}
+.warning-box strong{color:#F59E0B;}
+.toc{background:#0F1623;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px 28px;margin-bottom:48px;}
+.toc-title{font-family:"Bricolage Grotesque",sans-serif;font-size:14px;font-weight:700;color:#F1F5FF;margin-bottom:14px;}
+.toc ol{padding-left:20px;}
+.toc li{margin-bottom:6px;}
+.toc a{color:#94A3B8;text-decoration:none;font-size:13px;}
+.toc a:hover{color:#F59E0B;}
+h2{font-family:"Bricolage Grotesque",sans-serif;font-size:20px;font-weight:800;color:#F1F5FF;margin:48px 0 16px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);}
+h2:first-of-type{border-top:none;}
+h3{font-family:"Bricolage Grotesque",sans-serif;font-size:15px;font-weight:700;color:#E2E8F0;margin:24px 0 10px;}
+p{margin-bottom:14px;color:#94A3B8;}
+ul,ol{padding-left:22px;margin-bottom:14px;}
+li{margin-bottom:6px;color:#94A3B8;}
+strong{color:#CBD5E1;font-weight:600;}
+a{color:#F59E0B;text-decoration:none;}
+a:hover{text-decoration:underline;}
+.info-box{background:#111827;border-left:3px solid #F59E0B;border-radius:0 8px 8px 0;padding:14px 18px;margin:20px 0;}
+.info-box p{margin-bottom:0;font-size:13px;}
+table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:13px;}
+table th,table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.06);text-align:left;vertical-align:top;color:#94A3B8;}
+table th{color:#E2E8F0;font-weight:700;background:#0F1623;font-size:12px;text-transform:uppercase;letter-spacing:.5px;}
+table tr:last-child td{border-bottom:none;}
+footer-doc{display:block;margin-top:64px;padding-top:32px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;font-size:13px;color:#475569;}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Lead<span>Kalc</span></a>
+  <a href="index.html" class="nav-back">← Vissza a főoldalra</a>
+</nav>
+
+<div class="container">
+
+  <div class="doc-header">
+    <div class="doc-badge">Jogi dokumentum</div>
+    <div class="doc-title">Adatkezelési Tájékoztató</div>
+    <div class="doc-meta">
+      <span>📅 Hatályos: 2026. április 16-tól</span>
+      <span>🔄 Utolsó módosítás: 2026. április 16.</span>
+      <span>📄 Verzió: 1.0</span>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <strong>⚠️ Fontos tájékoztatás:</strong> Jelen Adatkezelési Tájékoztató célja, hogy az Adatkezelő a személyes adatok kezelésével kapcsolatos minden lényeges információt közöljön Önnel, amelyre az Európai Unió Általános Adatvédelmi Rendelete (GDPR), valamint a magyar adatvédelmi jogszabályok alapján jogosult. Kérjük, a weboldal használata, ajánlatkérés vagy a szolgáltatás igénybevétele előtt figyelmesen olvassa el.
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">📋 Tartalomjegyzék</div>
+    <ol>
+      <li><a href="#s1">Az Adatkezelő adatai</a></li>
+      <li><a href="#s2">A Tájékoztató hatálya és jogszabályi háttér</a></li>
+      <li><a href="#s3">Fogalommeghatározások</a></li>
+      <li><a href="#s4">Az adatkezelés alapelvei</a></li>
+      <li><a href="#s5">A kezelt személyes adatok, célok és jogalapok</a></li>
+      <li><a href="#s6">Az adatkezelés időtartama</a></li>
+      <li><a href="#s7">Az adatokhoz hozzáférők és az adatfeldolgozók</a></li>
+      <li><a href="#s8">Harmadik országba történő adattovábbítás</a></li>
+      <li><a href="#s9">Adatbiztonsági intézkedések</a></li>
+      <li><a href="#s10">Cookie-k (sütik) és hasonló technológiák</a></li>
+      <li><a href="#s11">A widget által kezelt adatok — speciális rendelkezések</a></li>
+      <li><a href="#s12">Az érintett jogai</a></li>
+      <li><a href="#s13">Jogorvoslati lehetőségek</a></li>
+      <li><a href="#s14">A Tájékoztató módosítása</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. -->
+  <h2 id="s1">1. Az Adatkezelő adatai</h2>
+  <p>A leadkalc.hu weboldalon keresztül nyújtott szolgáltatások, az ajánlatkérő űrlap, a kalkulátor widget és a hideg üzleti megkeresések tekintetében — ahol az Adatkezelő önállóan jár el — az Adatkezelő adatai az alábbiak:</p>
+  <ul>
+    <li><strong>Cégnév:</strong> Garamszegi Marcell egyéni vállalkozó</li>
+    <li><strong>Szolgáltatás márkaneve:</strong> LeadKalc</li>
+    <li><strong>Székhely:</strong> 1164 Budapest</li>
+    <li><strong>Adószám:</strong> 91913849-1-42</li>
+    <li><strong>Nyilvántartási szám:</strong> Egyéni vállalkozók nyilvántartása (NAV)</li>
+    <li><strong>Képviseli:</strong> Garamszegi Marcell</li>
+    <li><strong>E-mail (adatvédelmi ügyekben):</strong> marcell@leadkalc.hu</li>
+    <li><strong>Telefon:</strong> +36 30 356 2888</li>
+    <li><strong>Weboldal:</strong> <a href="https://leadkalc.hu">leadkalc.hu</a></li>
+  </ul>
+  <p>Az Adatkezelő a GDPR 37. cikke alapján adatvédelmi tisztviselő kijelölésére nem köteles, tekintettel arra, hogy fő tevékenysége nem követeli meg a nagy számban történő, rendszeres és szisztematikus megfigyelést, illetve különleges adatok nagy számban történő kezelését. Adatvédelmi kérdésekkel közvetlenül az Adatkezelőhöz fordulhat a fenti elérhetőségeken.</p>
+
+  <!-- 2. -->
+  <h2 id="s2">2. A Tájékoztató hatálya és jogszabályi háttér</h2>
+  <p>Jelen Adatkezelési Tájékoztató hatálya kiterjed a leadkalc.hu weboldal látogatóira, az ajánlatkérő űrlapot kitöltő érdeklődőkre, az Adatkezelő ügyfeleire és partnereire, valamint azokra a természetes személyekre, akikkel az Adatkezelő üzleti célú elektronikus levélben (hideg megkeresés) felveszi a kapcsolatot a szolgáltatás bemutatása céljából.</p>
+  <p>A Tájékoztató az alábbi jogszabályok alapján készült:</p>
+  <ul>
+    <li>Az Európai Parlament és a Tanács (EU) 2016/679 Rendelete (2016. április 27.) — általános adatvédelmi rendelet (a továbbiakban: <strong>GDPR</strong>)</li>
+    <li>2011. évi CXII. törvény az információs önrendelkezési jogról és az információszabadságról (<strong>Infotv.</strong>)</li>
+    <li>2013. évi V. törvény a Polgári Törvénykönyvről (<strong>Ptk.</strong>)</li>
+    <li>2001. évi CVIII. törvény az elektronikus kereskedelmi szolgáltatások, valamint az információs társadalommal összefüggő szolgáltatások egyes kérdéseiről (<strong>Eker. tv.</strong>)</li>
+    <li>2008. évi XLVIII. törvény a gazdasági reklámtevékenység alapvető feltételeiről és egyes korlátairól (<strong>Grtv.</strong>)</li>
+    <li>2000. évi C. törvény a számvitelről (<strong>Sztv.</strong>)</li>
+    <li>2017. évi CL. törvény az adózás rendjéről (<strong>Art.</strong>)</li>
+  </ul>
+
+  <!-- 3. -->
+  <h2 id="s3">3. Fogalommeghatározások</h2>
+  <p>A Tájékoztatóban használt legfontosabb fogalmak a GDPR 4. cikke szerint értelmezendők. A közérthetőség érdekében az alábbiakban kiemeljük a leggyakrabban előforduló kifejezéseket:</p>
+  <ul>
+    <li><strong>Személyes adat:</strong> azonosított vagy azonosítható természetes személyre (érintett) vonatkozó bármely információ.</li>
+    <li><strong>Érintett:</strong> az a természetes személy, akinek személyes adatait az Adatkezelő kezeli.</li>
+    <li><strong>Adatkezelés:</strong> személyes adatokon végzett bármely művelet (gyűjtés, rögzítés, tárolás, felhasználás, továbbítás, törlés stb.).</li>
+    <li><strong>Adatkezelő:</strong> aki az adatkezelés céljait és eszközeit meghatározza.</li>
+    <li><strong>Adatfeldolgozó:</strong> aki az Adatkezelő nevében személyes adatokat kezel, az Adatkezelő utasítása szerint.</li>
+    <li><strong>Hozzájárulás:</strong> az érintett önkéntes, konkrét, tájékozott és egyértelmű akaratnyilatkozata, amellyel beleegyezik az adatkezelésbe.</li>
+  </ul>
+
+  <!-- 4. -->
+  <h2 id="s4">4. Az adatkezelés alapelvei</h2>
+  <p>Az Adatkezelő a személyes adatokat a GDPR 5. cikkében foglalt alábbi alapelvek szerint kezeli:</p>
+  <ul>
+    <li><strong>Jogszerűség, tisztességes eljárás és átláthatóság</strong> — az adatkezelés jogszabályon és/vagy az érintett tájékoztatásán alapul.</li>
+    <li><strong>Célhoz kötöttség</strong> — az adatokat csak meghatározott, egyértelmű és jogszerű célból gyűjti.</li>
+    <li><strong>Adattakarékosság</strong> — csak annyi adatot kezel, amennyi a cél eléréséhez szükséges.</li>
+    <li><strong>Pontosság</strong> — törekszik az adatok pontosságára; a hibás adatokat haladéktalanul helyesbíti vagy törli.</li>
+    <li><strong>Korlátozott tárolhatóság</strong> — csak addig tárolja az adatokat, amíg az a célhoz szükséges, vagy amíg jogszabály kötelezi.</li>
+    <li><strong>Integritás és bizalmas jelleg</strong> — megfelelő technikai és szervezési intézkedésekkel biztosítja az adatok biztonságát.</li>
+    <li><strong>Elszámoltathatóság</strong> — az Adatkezelő felelős a fentiek betartásáért, és képes azt igazolni.</li>
+  </ul>
+
+  <!-- 5. -->
+  <h2 id="s5">5. A kezelt személyes adatok, célok és jogalapok</h2>
+  <p>Az alábbi táblázat összefoglalja, hogy az Adatkezelő milyen személyes adatokat, milyen célból és milyen jogalapon kezel:</p>
+
+  <h3>5.1 Weboldal ajánlatkérő és kapcsolati űrlap (leadkalc.hu)</h3>
+  <table>
+    <thead><tr><th>Adatkategória</th><th>Konkrét adatok</th></tr></thead>
+    <tbody>
+      <tr><td>Azonosító adatok</td><td>név</td></tr>
+      <tr><td>Kapcsolati adatok</td><td>e-mail cím, telefonszám</td></tr>
+      <tr><td>Szakmai adatok</td><td>cégnév (opcionális), érdeklődés tárgya (csomag), üzenet tartalma</td></tr>
+      <tr><td>Technikai adatok</td><td>az űrlap kitöltésének időpontja</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Az adatkezelés célja:</strong> az érdeklődő azonosítása, visszahívás, ajánlatadás, szerződéskötés előkészítése, az érdeklődéssel kapcsolatos kommunikáció.</p>
+  <p><strong>Az adatkezelés jogalapja:</strong> a GDPR 6. cikk (1) bekezdés b) pontja — a szerződés megkötését megelőzően az érintett kérésére történő lépések megtétele; valamint f) pontja — az Adatkezelő jogos érdeke üzleti kapcsolatok létesítésére.</p>
+
+  <h3>5.2 Hideg üzleti megkeresés (B2B elektronikus levél)</h3>
+  <p>Az Adatkezelő a Grtv. 6. § (4) bekezdése alapján vállalkozásokkal szakmai tevékenységük körében, nyilvánosan elérhető üzleti e-mail címre (pl. info@…, iroda@…, cég honlapján vagy hivatalos nyilvántartásokban megjelent üzleti elérhetőség) reklámozási célú elektronikus levelet küldhet, az érintett egyértelmű megtagadási lehetőségének biztosítása mellett.</p>
+  <table>
+    <thead><tr><th>Adatkategória</th><th>Konkrét adatok</th></tr></thead>
+    <tbody>
+      <tr><td>Vállalkozás adatai</td><td>cégnév, székhely, tevékenységi kör</td></tr>
+      <tr><td>Nyilvános üzleti kapcsolat</td><td>üzleti e-mail cím, cégnyilvántartási adatok</td></tr>
+      <tr><td>Kommunikációs napló</td><td>a kiküldött üzenet időpontja, tárgya, válasz státusza</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Az adatkezelés célja:</strong> B2B szakmai megkeresés, a szolgáltatás bemutatása, üzleti kapcsolat felvétele.</p>
+  <p><strong>Az adatkezelés jogalapja:</strong> a GDPR 6. cikk (1) bekezdés f) pontja — az Adatkezelő jogos érdeke új üzleti kapcsolatok létesítésére, valamint a Grtv. 6. § (4) bekezdése.</p>
+  <p><strong>Az adatok forrása:</strong> nyilvánosan elérhető hivatalos és szakmai nyilvántartások (pl. NKVH F-gáz regiszter, cégnyilvántartás, vállalkozások saját honlapjai).</p>
+  <div class="info-box">
+    <p><strong>Tiltakozás joga:</strong> Ön bármikor, indokolás nélkül tiltakozhat az ilyen megkeresések ellen, és kérheti adatainak törlését az elküldött e-mailre adott egyszerű válasszal vagy a <strong>marcell@leadkalc.hu</strong> címen. Ebben az esetben az Adatkezelő haladéktalanul leállítja a további megkereséseket.</p>
+  </div>
+
+  <h3>5.3 Szerződött ügyfelek adatai</h3>
+  <table>
+    <thead><tr><th>Adatkategória</th><th>Konkrét adatok</th></tr></thead>
+    <tbody>
+      <tr><td>Számlázási adatok</td><td>cégnév, székhely, adószám, képviselő neve</td></tr>
+      <tr><td>Kapcsolattartó adatai</td><td>név, e-mail, telefon, beosztás</td></tr>
+      <tr><td>Szerződéses adatok</td><td>választott csomag, előfizetés kezdete, fizetési előzmények</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Az adatkezelés célja:</strong> a szolgáltatási szerződés teljesítése, számlázás, ügyféltámogatás, kapcsolattartás.</p>
+  <p><strong>Az adatkezelés jogalapja:</strong> a GDPR 6. cikk (1) bekezdés b) pontja — szerződés teljesítése; továbbá c) pontja — jogi kötelezettség teljesítése (számviteli és adózási előírások).</p>
+
+  <h3>5.4 A weboldal látogatóitól automatikusan gyűjtött adatok</h3>
+  <p>Az Adatkezelő weboldalán (leadkalc.hu) jelenleg <strong>nem üzemel</strong> látogatói nyomkövetést végző elemző (analitikai) vagy hirdetési eszköz (pl. Google Analytics, Meta Pixel). A tárhelyszolgáltató szerverei azonban szokásos üzemeltetési célból rögzítik az alapvető technikai adatokat (pl. IP-cím, böngésző típusa, meglátogatott oldal). Ezeket az Adatkezelő kizárólag hibaelhárítási és biztonsági célból használja.</p>
+
+  <!-- 6. -->
+  <h2 id="s6">6. Az adatkezelés időtartama</h2>
+  <p>Az Adatkezelő az alábbi határidők szerint kezeli a személyes adatokat:</p>
+  <table>
+    <thead><tr><th>Adatkategória</th><th>Időtartam</th></tr></thead>
+    <tbody>
+      <tr><td>Ajánlatkérő űrlap adatai (üzlet nem jött létre)</td><td>legfeljebb 12 hónap, ezt követően törlés</td></tr>
+      <tr><td>Hideg megkeresés kommunikációs napló</td><td>legfeljebb 24 hónap, vagy amíg az érintett a törlést kéri</td></tr>
+      <tr><td>Szerződéses ügyfelek adatai</td><td>a szerződés megszűnéséig, majd a Ptk. szerinti általános elévülési ideig (5 év)</td></tr>
+      <tr><td>Számlázási és könyvelési adatok</td><td>a számvitelről szóló 2000. évi C. törvény 169. § alapján 8 év</td></tr>
+      <tr><td>Szervernaplók</td><td>legfeljebb 30 nap</td></tr>
+    </tbody>
+  </table>
+  <p>Az érintett bármikor kérheti adatai törlését, amennyiben annak jogszabályi akadálya nincs (pl. még futó számviteli megőrzési kötelezettség).</p>
+
+  <!-- 7. -->
+  <h2 id="s7">7. Az adatokhoz hozzáférők és az adatfeldolgozók</h2>
+  <p>Az Adatkezelő a személyes adatokat kizárólag az alábbi adatfeldolgozókkal osztja meg, amelyek a szolgáltatás nyújtásához nélkülözhetetlenek. Minden adatfeldolgozó a GDPR 28. cikkének megfelelő szerződés alapján jár el.</p>
+
+  <h3>7.1 Tárhelyszolgáltató</h3>
+  <ul>
+    <li><strong>Név:</strong> Netlify, Inc.</li>
+    <li><strong>Cím:</strong> 512 2nd Street, Suite 200, San Francisco, CA 94107, Amerikai Egyesült Államok</li>
+    <li><strong>Feladat:</strong> a leadkalc.hu weboldal statikus kiszolgálása</li>
+    <li><strong>Kezelt adatok:</strong> a szerver által automatikusan rögzített technikai adatok (IP, User-Agent, időbélyeg)</li>
+  </ul>
+
+  <h3>7.2 Űrlapkezelő szolgáltatás</h3>
+  <ul>
+    <li><strong>Név:</strong> EmailJS (EmailJS.com)</li>
+    <li><strong>Cím:</strong> 1209 Mountain Road Pl NE, Suite H, Albuquerque, NM 87110, Amerikai Egyesült Államok</li>
+    <li><strong>Feladat:</strong> a weboldali ajánlatkérő űrlap beküldésének továbbítása az Adatkezelő e-mail postafiókjába</li>
+    <li><strong>Kezelt adatok:</strong> az űrlapon megadott adatok (név, e-mail, telefon, cégnév, üzenet)</li>
+  </ul>
+
+  <h3>7.3 E-mail szolgáltató</h3>
+  <ul>
+    <li><strong>Név:</strong> Rackhost Zrt.</li>
+    <li><strong>Cím:</strong> 6722 Szeged, Tisza Lajos körút 41.</li>
+    <li><strong>Cégjegyzékszám:</strong> 06-10-000489</li>
+    <li><strong>Feladat:</strong> a leadkalc.hu domainhez kapcsolódó e-mail fiókok üzemeltetése (marcell@leadkalc.hu), a ki- és bejövő levelezés kiszolgálása</li>
+    <li><strong>Kezelt adatok:</strong> a levelezés tartalma és fejléc-adatai</li>
+  </ul>
+
+  <h3>7.4 Számlázó szolgáltatás</h3>
+  <p>Az Adatkezelő a számlázási tevékenységhez magyarországi székhelyű, NAV-nyilvántartott számlázóprogramot vesz igénybe (pl. Billingo, Számlázz.hu), amely a GDPR 28. cikkének megfelelő adatfeldolgozói szerződéssel rendelkezik. A pontos szolgáltató megnevezését az Adatkezelő az ügyfelek részére kiállított számlákon feltünteti.</p>
+
+  <h3>7.5 Egyéb hozzáférés</h3>
+  <p>A személyes adatokat az Adatkezelőn és a fenti adatfeldolgozókon kívül harmadik fél részére nem továbbítja, <strong>kivéve</strong>, ha arra jogszabály, bírósági határozat vagy hatósági megkeresés kötelezi.</p>
+
+  <!-- 8. -->
+  <h2 id="s8">8. Harmadik országba történő adattovábbítás</h2>
+  <p>A 7.1 (Netlify) és 7.2 (EmailJS) pontokban megnevezett adatfeldolgozók az Amerikai Egyesült Államokban rendelkeznek székhellyel, így a GDPR 44–49. cikkei szerinti harmadik országba történő adattovábbítás valósul meg.</p>
+  <p>Az adattovábbítás jogalapja a GDPR 46. cikk (2) bekezdés c) pontja szerinti <strong>Általános Szerződési Feltételek (Standard Contractual Clauses, SCC)</strong>, illetve az Európai Bizottság által 2023. július 10-én hozott megfelelőségi határozat alapján az <strong>EU-U.S. Data Privacy Framework (DPF)</strong>, amennyiben az érintett szolgáltató erre tanúsítottan csatlakozott.</p>
+  <p>Az Adatkezelő az adattovábbítás során gondoskodik arról, hogy az érintettek jogainak védelme az uniós szint-nek megfelelő maradjon. Az SCC és a DPF szerinti részletes garanciák az érintett kérésére rendelkezésre bocsáthatók.</p>
+
+  <!-- 9. -->
+  <h2 id="s9">9. Adatbiztonsági intézkedések</h2>
+  <p>Az Adatkezelő a személyes adatok biztonsága érdekében a kockázatokkal arányos technikai és szervezési intézkedéseket alkalmaz, így különösen:</p>
+  <ul>
+    <li>a weboldal és a beküldött űrlapok HTTPS (TLS 1.2+) titkosítással védettek</li>
+    <li>az e-mail szerver SPF, DKIM és DMARC hitelesítést alkalmaz</li>
+    <li>az adatfeldolgozói fiókok erős, egyedi jelszóval és ahol lehet, kétfaktoros hitelesítéssel védettek</li>
+    <li>a munkavégzésre használt eszközökön rendszeres biztonsági frissítéseket telepítenek</li>
+    <li>az adatfeldolgozókkal a GDPR 28. cikkének megfelelő megállapodás jött létre</li>
+    <li>adatvédelmi incidens esetén az Adatkezelő a GDPR 33. cikke szerint eljár és szükség esetén 72 órán belül értesíti a felügyeleti hatóságot</li>
+  </ul>
+
+  <!-- 10. -->
+  <h2 id="s10">10. Cookie-k (sütik) és hasonló technológiák</h2>
+  <p>A leadkalc.hu weboldal <strong>kizárólag olyan technikailag szükséges sütiket</strong> használhat, amelyek az oldal megjelenítéséhez vagy működéséhez elengedhetetlenek (pl. munkamenet-fenntartó süti). Ezek nem minősülnek nyomkövető vagy profilalkotási sütinek.</p>
+  <p>Az Adatkezelő a weboldalon jelenleg <strong>nem használ marketing, hirdetési vagy analitikai (nyomkövető) sütiket</strong>, így az elektronikus hírközlésről szóló jogszabály szerinti külön hozzájárulást igénylő süti-banner bekérése nem szükséges. Amennyiben ez a jövőben megváltozik, az Adatkezelő a Tájékoztatót módosítja, és a látogatók részére megfelelő hozzájárulás-kezelő felületet biztosít.</p>
+
+  <!-- 11. -->
+  <h2 id="s11">11. A widget által kezelt adatok — speciális rendelkezések</h2>
+  <p>Az Adatkezelő szolgáltatásának lényege egy olyan beágyazható kalkulátor widget biztosítása, amelyet az <strong>Ügyfél</strong> (mint energetikai kivitelező vállalkozás) a saját weboldalába integrál. A widget segítségével az Ügyfél weboldalának látogatói energetikai kalkulációkat végezhetnek, és megadhatják elérhetőségüket egy ajánlatkéréshez.</p>
+
+  <h3>11.1 Az adatkezelési szerepkörök</h3>
+  <p>A widget által gyűjtött személyes adatok tekintetében:</p>
+  <ul>
+    <li><strong>Adatkezelő (Controller):</strong> az az Ügyfél (az adott energetikai cég), amely a widgetet a saját weboldalába integrálta. Az Ügyfél határozza meg az adatkezelés célját (pl. az ajánlatkérésre válaszadás, szerződéskötés), és ő áll közvetlen kapcsolatban a végfelhasználóval.</li>
+    <li><strong>Adatfeldolgozó (Processor):</strong> a LeadKalc (Garamszegi Marcell ev.), amely a widget technikai működtetését, az adatok biztonságos továbbítását és esetleges átmeneti tárolását biztosítja az Ügyfél utasításai szerint.</li>
+  </ul>
+  <p>A felek közötti részletes jogokat és kötelezettségeket a LeadKalc és az Ügyfél között létrejött <strong>adatfeldolgozói szerződés (Data Processing Agreement, DPA)</strong> szabályozza a GDPR 28. cikkének megfelelően.</p>
+
+  <h3>11.2 A widget által gyűjtött adatok köre</h3>
+  <p>A widget által tipikusan kezelt adatok:</p>
+  <ul>
+    <li>a végfelhasználó neve, e-mail címe, telefonszáma</li>
+    <li>a kalkulációhoz megadott adatok (pl. havi fogyasztás, tetőtájolás, lakásméret)</li>
+    <li>irányítószám vagy település (opcionális)</li>
+    <li>a kitöltés időpontja</li>
+  </ul>
+
+  <h3>11.3 Az adatok címzettje</h3>
+  <p>A widgetben megadott adatokat a LeadKalc továbbítja az Ügyfél által megadott e-mail címre vagy a lead-kezelő rendszerébe. Az adatok további kezelése — beleértve az ajánlatadást, tárolási időt és az érintettek jogainak érvényesítését — az Ügyfél saját adatkezelési tájékoztatója szerint történik.</p>
+
+  <h3>11.4 Az érintettek tájékoztatása a widgetben</h3>
+  <p>Az Ügyfél köteles a widget használatakor a végfelhasználók részére saját adatkezelési tájékoztatóját elérhetővé tenni, valamint a szükséges hozzájárulásokat beszerezni. A LeadKalc a widget felületén erre figyelmeztető szöveget és hivatkozást biztosít.</p>
+
+  <div class="info-box">
+    <p><strong>Végfelhasználóknak:</strong> Ha Ön egy energetikai cég weboldalán találkozott a LeadKalc widgettel, és kérdése van a saját adatai kezelésével kapcsolatban, elsődlegesen annak a cégnek (az Ügyfélnek) az adatkezelési tájékoztatóját kérjük olvassa el, aki a widgetet üzemelteti. Amennyiben a LeadKalc-ot mint adatfeldolgozót kívánja közvetlenül megkeresni, ezt a <strong>marcell@leadkalc.hu</strong> címen megteheti.</p>
+  </div>
+
+  <!-- 12. -->
+  <h2 id="s12">12. Az érintett jogai</h2>
+  <p>Ön a GDPR 15–22. cikkei alapján az alábbi jogokat gyakorolhatja az Adatkezelővel szemben:</p>
+
+  <h3>12.1 Hozzáféréshez való jog (GDPR 15. cikk)</h3>
+  <p>Ön tájékoztatást kérhet arról, hogy milyen személyes adatait kezeljük, milyen célból, meddig, kinek továbbítjuk, és milyen forrásból származnak. Kérésére az adatokról másolatot adunk.</p>
+
+  <h3>12.2 Helyesbítéshez való jog (GDPR 16. cikk)</h3>
+  <p>Ön kérheti a pontatlan személyes adatok helyesbítését, illetve a hiányos adatok kiegészítését.</p>
+
+  <h3>12.3 Törléshez való jog („az elfeledtetéshez való jog”, GDPR 17. cikk)</h3>
+  <p>Ön kérheti adatainak törlését, ha (a) azokra már nincs szükség, (b) visszavonja hozzájárulását, (c) tiltakozik a kezelés ellen és nincs elsőbbséget élvező jogszerű ok, (d) az adatokat jogellenesen kezelték, vagy (e) jogi kötelezettség írja elő a törlést. A törlési jog nem érvényesíthető, ha az adatok kezelését jogszabály (pl. számviteli kötelezettség) írja elő.</p>
+
+  <h3>12.4 Korlátozáshoz való jog (GDPR 18. cikk)</h3>
+  <p>Ön kérheti, hogy az Adatkezelő az adatkezelést korlátozza, különösen ha vitatja az adatok pontosságát vagy a kezelés jogszerűségét.</p>
+
+  <h3>12.5 Adathordozhatósághoz való jog (GDPR 20. cikk)</h3>
+  <p>Ön jogosult az Ön által rendelkezésre bocsátott személyes adatokat tagolt, széles körben használt, géppel olvasható formátumban megkapni, és azokat egy másik adatkezelőnek továbbítani.</p>
+
+  <h3>12.6 Tiltakozáshoz való jog (GDPR 21. cikk)</h3>
+  <p>Ön jogosult tiltakozni személyes adatainak jogos érdeken alapuló kezelése ellen, különösen közvetlen üzletszerzési (marketing) célú adatkezelés esetén. Ilyen esetben az Adatkezelő az adatkezelést haladéktalanul megszünteti.</p>
+
+  <h3>12.7 Hozzájárulás visszavonásának joga (GDPR 7. cikk (3))</h3>
+  <p>Amennyiben az adatkezelés hozzájáruláson alapul, Ön a hozzájárulását bármikor, indokolás nélkül visszavonhatja. A visszavonás nem érinti a hozzájárulás alapján korábban végzett adatkezelés jogszerűségét.</p>
+
+  <h3>12.8 A kérelem benyújtásának módja</h3>
+  <p>A fenti jogokat írásban gyakorolhatja a <strong>marcell@leadkalc.hu</strong> e-mail címen vagy postai úton az Adatkezelő székhelyére küldött levéllel. Az Adatkezelő a kérelem beérkezésétől számított legfeljebb <strong>1 hónapon belül</strong> válaszol, amely szükség esetén további két hónappal meghosszabbítható. A válaszadás ingyenes, kivéve ha a kérelem nyilvánvalóan megalapozatlan vagy túlzó.</p>
+
+  <!-- 13. -->
+  <h2 id="s13">13. Jogorvoslati lehetőségek</h2>
+  <p>Amennyiben Ön úgy ítéli meg, hogy az Adatkezelő a személyes adatai kezelése során megsértette az adatvédelmi jogszabályokat, az alábbi jogorvoslati fórumokhoz fordulhat:</p>
+
+  <h3>13.1 Felügyeleti hatóság</h3>
+  <ul>
+    <li><strong>Megnevezés:</strong> Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)</li>
+    <li><strong>Cím:</strong> 1055 Budapest, Falk Miksa utca 9-11.</li>
+    <li><strong>Postacím:</strong> 1363 Budapest, Pf.: 9.</li>
+    <li><strong>Telefon:</strong> +36 1 391 1400</li>
+    <li><strong>E-mail:</strong> ugyfelszolgalat@naih.hu</li>
+    <li><strong>Weboldal:</strong> <a href="https://www.naih.hu">www.naih.hu</a></li>
+  </ul>
+
+  <h3>13.2 Bírósági jogorvoslat</h3>
+  <p>Ön a személyes adatok kezelésével kapcsolatos jogainak megsértése esetén az illetékes törvényszékhez fordulhat. A per az Ön választása szerint a lakóhelye vagy tartózkodási helye szerinti törvényszék előtt is megindítható.</p>
+
+  <div class="info-box">
+    <p><strong>Javaslat:</strong> Panasza esetén kérjük, először forduljon közvetlenül az Adatkezelőhöz a <strong>marcell@leadkalc.hu</strong> címen. A legtöbb észrevétel rövid időn belül, hivatalos eljárás igénybevétele nélkül rendezhető.</p>
+  </div>
+
+  <!-- 14. -->
+  <h2 id="s14">14. A Tájékoztató módosítása</h2>
+  <p>Az Adatkezelő fenntartja a jogot, hogy jelen Adatkezelési Tájékoztatót egyoldalúan, bármikor módosítsa — különösen jogszabályi változás, új szolgáltatás bevezetése vagy adatfeldolgozó megváltozása esetén.</p>
+  <p>A módosításról az Adatkezelő a weboldal nyitóoldalán előzetesen tájékoztat. A módosított Tájékoztató a közzétételtől számított 15. napon lép hatályba, kivéve ha az jogszabályi változás miatt azonnal alkalmazandó.</p>
+  <p>A mindenkor hatályos Tájékoztató a <a href="https://leadkalc.hu/adatkezelesi-tajekoztato.html">leadkalc.hu/adatkezelesi-tajekoztato.html</a> címen érhető el.</p>
+
+  <footer-doc>
+    LeadKalc — Adatkezelési Tájékoztató · Verzió 1.0 · Hatályos: 2026. április 16-tól<br>
+    Adatkezelő: Garamszegi Marcell egyéni vállalkozó · Adószám: 91913849-1-42 · marcell@leadkalc.hu
+  </footer-doc>
+
+</div>
+
+</body>
+</html>
